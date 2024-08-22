@@ -23,6 +23,7 @@ import { AuthControllerBuilder } from "builders/Auth/authBuilder"
  * createRouterAuth(); // Sets up the auth routes
  * app.use(router); // Apply the configured routes to the Express app
  */
+
 export const createRouterAuth = () => {
   const repository = new UserRepository()
 
