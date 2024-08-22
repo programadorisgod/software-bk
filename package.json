@@ -1,0 +1,47 @@
+{
+  "name": "backend-software-financiero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest --detectOpenHandles --forceExit && npm run typecheck",
+    "dev": "cross-env NODE_ENV=development npx tsx watch --no-warnings --env-file=.env -r tsconfig-paths/register src/frameworks/index.ts",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "typecheck": "npx tsc --noEmit",
+    "clean": "rimraf ./dist ./tmp",
+    "build": "npm run clean && npx tsc",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "financiero",
+    "finanzas",
+    "ingeniería economica"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "9.9.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "4.17.21",
+    "@types/jest": "29.5.12",
+    "@types/node": "22.5.0",
+    "jest": "29.7.0",
+    "prettier": "3.3.3",
+    "rimraf": "6.0.1",
+    "supertest": "7.0.0",
+    "ts-jest": "29.2.4",
+    "tsconfig-paths": "^4.2.0",
+    "tslib": "2.6.3",
+    "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "apicustomerrors": "^1.4.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cors": "2.8.5",
+    "cross-env": "7.0.3",
+    "express": "4.19.2",
+    "helmet": "^7.1.0"
+  }
+}

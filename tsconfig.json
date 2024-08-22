@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "ESNext",
+    "strict": true,
+    "moduleResolution": "Node",
+    "noImplicitAny": true,
+    "sourceMap": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "baseUrl": "./src",
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "paths": {
+      "@routes/*": ["adapters/routes/*"],
+      "@controllers/*": ["adapters/controllers/*"],
+      "@utils/*": ["adapters/utils/*"],
+      "@interfaces/*": ["adapters/interfaces/*"],
+      "@config/*": ["adapters/config/*"],
+      "@Entity/*": ["Entity/*"],
+      "@Repository/*": ["Repository/*"],
+      "@useCases/*": ["useCases/*"],
+      "@Dtos/*": ["Dtos/*"],
+      "@constants/*": ["CONSTANTS/*"]
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
