@@ -1,5 +1,6 @@
 import { router } from "@config/routerConfig"
 import { BASE_URL } from "@constants/constants"
+import { AuthController } from "@controllers/auth/auth"
 import { LoginDto } from "@Dtos/Auth/loginDto"
 import { RegisterDto } from "@Dtos/Auth/registerDto"
 import { UserRepository } from "@Repository/user/repository"
@@ -35,14 +36,20 @@ export const createRouterAuth = () => {
     .withAuthRegister(useCaseRegister)
     .build()
 
-  router.post(
-    `${BASE_URL}/auth/login`,
-    validateDto(LoginDto),
-    authController.login,
-  )
-  router.post(
-    `${BASE_URL}/auth/register`,
-    validateDto(RegisterDto),
-    authController.register,
-  )
+  if (authController instanceof AuthController) {
+    router.post(
+      `${BASE_URL}/auth/login`,
+      validateDto(LoginDto),
+      authController.login,
+    )
+    router.post(
+      `${BASE_URL}/auth/register`,
+      validateDto(RegisterDto),
+      authController.register,
+    )
+  } else {
+    console.log(`Error when building AuthController: ${authController.error}`)
+  }
+
+  return router
 }

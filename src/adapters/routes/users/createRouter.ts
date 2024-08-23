@@ -1,5 +1,6 @@
 import { router } from "@config/routerConfig"
 import { BASE_URL } from "@constants/constants"
+import { UserController } from "@controllers/users/user"
 import { UserRepository } from "@Repository/user/repository"
 import { UseCaseUserDelete } from "@useCases/users/delete"
 import { UseCaseFindUser } from "@useCases/users/find"
@@ -37,10 +38,14 @@ export const createRouterUser = () => {
     .withUpdate(useCaseUpdate)
     .build()
 
-  router.get(`${BASE_URL}/users`, controller.findAll)
-  router.get(`${BASE_URL}/users/:id`, controller.findById)
-  router.delete(`${BASE_URL}/users/:id`, controller.delete)
-  router.put(`${BASE_URL}/users/:id`, controller.update)
+  if (controller instanceof UserController) {
+    router.get(`${BASE_URL}/users`, controller.findAll)
+    router.get(`${BASE_URL}/users/:id`, controller.findById)
+    router.delete(`${BASE_URL}/users/:id`, controller.delete)
+    router.put(`${BASE_URL}/users/:id`, controller.update)
+  } else {
+    console.log(`Error when building UserController: ${controller.error}`)
+  }
 
   return router
 }
