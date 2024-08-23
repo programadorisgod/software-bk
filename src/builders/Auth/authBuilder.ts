@@ -18,8 +18,14 @@ export class AuthControllerBuilder {
   }
 
   build() {
-    if (!this.useCaseAuthLogin) return Failure("Use case AuthLogin is required")
-    if (!this.useCaseRegister) return Failure("Use case Register is required")
+    if (!this.useCaseAuthLogin)
+      return Failure(
+        "Use case AuthLogin is required for building AuthController",
+      )
+    if (!this.useCaseRegister)
+      return Failure(
+        "Use case Register is required for building AuthController",
+      )
     return new AuthController(this.useCaseAuthLogin, this.useCaseRegister)
   }
 }
