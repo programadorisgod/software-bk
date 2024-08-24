@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryColumn, BaseEntity } from "typeorm"
+import { Bank } from "@Entity/bank/bank"
+import { Movement } from "@Entity/movement/movement"
+import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany, ManyToOne } from "typeorm"
 
 //the established inheritance is made for the ease of the methods offered by Typeorm
 @Entity("users")
@@ -27,4 +29,10 @@ export class User extends BaseEntity {
 
   @Column("simple-array")
   faceImage!: number[]
+
+  @OneToMany(()=> Movement,( movement ) => movement.user)
+  movement!:Movement
+
+  @ManyToOne(()=> Bank,(bank)=>bank.users)
+  bank!:Bank
 }

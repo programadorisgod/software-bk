@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 @Entity('payments')
 export class Payment extends BaseEntity{
     @PrimaryColumn()
-    id!: string
+    idPayment!: string
 
     @Column()
     date!: Date
