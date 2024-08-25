@@ -2,7 +2,7 @@ import { BaseEntity, Column, ManyToOne, PrimaryColumn } from "typeorm";
 
 import { User } from "@Entity/user/user";
 
-export class Credit extends BaseEntity{
+export class Credit extends BaseEntity {
     @PrimaryColumn()
     idCredit!:string
 
@@ -52,7 +52,7 @@ export class Credit extends BaseEntity{
 
     @Column()
     inflationType!:string
-    
+
     @ManyToOne(()=>User,(user)=>user.credit)
     users!:User
 }
