@@ -44,7 +44,7 @@ export const createRouterUser = () => {
     router.delete(`${BASE_URL}/users/:id`, controller.delete)
     router.put(`${BASE_URL}/users/:id`, controller.update)
   } else {
-    console.log(`Error when building UserController: ${controller.error}`)
+    console.log(`[Error] when building UserController: ${controller.error} `)
   }
 
   return router
