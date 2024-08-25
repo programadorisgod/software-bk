@@ -1,4 +1,5 @@
 import { Bank } from "@Entity/bank/bank"
+import { Credit } from "@Entity/credit/credit"
 import { Movement } from "@Entity/movement/movement"
 import { Entity, Column, PrimaryColumn, BaseEntity, OneToMany, ManyToOne } from "typeorm"
 
@@ -35,4 +36,7 @@ export class User extends BaseEntity {
 
   @ManyToOne(()=> Bank,(bank)=>bank.users)
   bank!:Bank
+
+  @OneToMany(()=> Credit,(credit)=>credit.users)
+  credit!:Credit
 }
