@@ -3,7 +3,7 @@ import express, { json } from "express"
 import cors from "cors"
 import { createRouterUser } from "@routes/users/createRouter"
 import helmet from "helmet"
-import { DataBase } from "./database/init"
+import { DataBase } from "@frameworks/database/init"
 
 const app = express()
 
