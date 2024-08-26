@@ -1,16 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm"
 
-@Entity('payments')
-export class Payment extends BaseEntity{
-    @PrimaryColumn()
-    idPayment!: string
+@Entity("payments")
+export class Payment extends BaseEntity {
+  @PrimaryColumn({ type: "varchar" })
+  idPayment!: string
 
-    @Column()
-    date!: Date
+  @Column({ type: "timestamp" })
+  date!: Date
 
-    @Column()
-    amount !: number
+  @Column({ type: "decimal" })
+  amount!: number
 
-    @Column()
-    fees_number!: number
+  @Column({ type: "integer" })
+  fees_number!: number
 }

@@ -1,58 +1,62 @@
-import { BaseEntity, Column, ManyToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, ManyToOne, PrimaryColumn } from "typeorm"
 
-import { User } from "@Entity/user/user";
+import { User } from "@Entity/user/user"
 
 export class Credit extends BaseEntity {
-    @PrimaryColumn()
-    idCredit!:string
+  @PrimaryColumn({ type: "varchar" })
+  idCredit!: string
 
-    @Column()
-    principalAmount!:number
+  @Column({ type: "decimal" })
+  principalAmount!: number
 
-    @Column()
-    interestRate!: number
+  @Column({ type: "decimal" })
+  interestRate!: number
 
-    @Column()
-    interestType!:string
+  @Column({ type: "varchar" })
+  interestType!: string
 
-    @Column()
-    gradientType!:string
+  @Column({ type: "varchar" })
+  gradientType!: string
 
-    @Column()
-    gradientValue!:number
+  @Column({ type: "decimal" })
+  gradientValue!: number
 
-    @Column()
-    term!: number
+  @Column({ type: "integer" })
+  term!: number
 
-    @Column()
-    starDate!:Date
+  @Column({ type: "timestamp" })
+  starDate!: Date
 
-    @Column()
-    endDate!:Date
+  @Column({ type: "timestamp" })
+  endDate!: Date
 
-    @Column()
-    totalAmountDue!:number
+  @Column({ type: "decimal" })
+  totalAmountDue!: number
 
-    @Column()
-    status!:string
+  @Column({ type: "varchar" })
+  status!: string
 
-    //createdAt!:
-    // updateAr!:
-    @Column()
-    tirType!:number
-    
-    @Column()
-    uvrType!:string
+  @Column({ type: "timestamp" })
+  createdAt!: Date
 
-    @Column()
-    investmentAlternativeType!:string
+  @Column({ type: "timestamp" })
+  updateAr!: Date
 
-    @Column()
-    bondType!:string
+  @Column({ type: "decimal" })
+  tirType!: number
 
-    @Column()
-    inflationType!:string
+  @Column({ type: "varchar" })
+  uvrType!: string
 
-    @ManyToOne(()=>User,(user)=>user.credit)
-    users!:User
+  @Column({ type: "varchar" })
+  investmentAlternativeType!: string
+
+  @Column({ type: "varchar" })
+  bondType!: string
+
+  @Column({ type: "varchar" })
+  inflationType!: string
+
+  @ManyToOne(() => User, (user:User) => user.credit)
+  users!: User
 }

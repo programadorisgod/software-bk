@@ -1,23 +1,23 @@
-import { User } from "@Entity/user/user";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { User } from "@Entity/user/user"
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm"
 
-@Entity('movements')
-export class Movement extends BaseEntity{
-    @PrimaryColumn()
-    idMovement!:string
+@Entity("movements")
+export class Movement extends BaseEntity {
+  @PrimaryColumn({ type: "varchar" })
+  idMovement!: string
 
-    @Column()
-    description!:string
+  @Column({ type: "varchar" })
+  description!: string
 
-    @Column()
-    dateMovement!: Date
+  @Column({ type: 'timestamp' })
+  dateMovement!: Date
 
-    @Column()
-    omuntMovement!:number
+  @Column({ type: 'decimal' })
+  omuntMovement!: number
 
-    @Column()
-    destination!:string
+  @Column({ type: "varchar" })
+  destination!: string
 
-    @ManyToOne(() => User,(user) => user.movement)
-    user!:User
+  @ManyToOne(() => User, (user:User) => user.movement)
+  user!: User
 }

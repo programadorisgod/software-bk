@@ -3,10 +3,15 @@ import express, { json } from "express"
 import cors from "cors"
 import { createRouterUser } from "@routes/users/createRouter"
 import helmet from "helmet"
+import { DataBase } from "./database/init"
 
 const app = express()
 
 const PORT = process.env.PORT || process.argv[3] || 3000
+
+const BD = DataBase.Instance 
+
+BD.connectDB()// called the method for connecting the Database
 
 /** We disable the ‘X-Powered-By’ header in the HTTP response.
  This header, by default, is added by Express and discloses Express server usage to clients. */
