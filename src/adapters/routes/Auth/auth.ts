@@ -8,6 +8,7 @@ import { UseCaseAuthLogin } from "@useCases/Auth/login"
 import { UseCaseAuthRegister } from "@useCases/Auth/register"
 import { validateDto } from "adapters/middleware/validator"
 import { AuthControllerBuilder } from "builders/Auth/authBuilder"
+import { Router } from "express"
 
 /**
  * Creates and configures the authentication router.
@@ -25,7 +26,7 @@ import { AuthControllerBuilder } from "builders/Auth/authBuilder"
  * app.use(router); // Apply the configured routes to the Express app
  */
 
-export const createRouterAuth = () => {
+export const createRouterAuth = ():Router => {
   const repository = new UserRepository()
 
   const useCaseAuthLogin = new UseCaseAuthLogin(repository)
