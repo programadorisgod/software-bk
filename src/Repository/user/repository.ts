@@ -3,18 +3,22 @@ import { ICRUDRepository } from "@interfaces/Repository/crudRespository"
 
 export class UserRepository implements ICRUDRepository<User> {
   async findAll(): Promise<User[] | Error> {
-    throw new Error("Method not implemented.")
+    const users = await User.find({ relations: { movement: true, credit: true, bank: true } })
+    return users
   }
-  async findById(id: number | string): Promise<User | Error> {
-    throw new Error("Method not implemented.")
+  async findById(id: string): Promise<User | Error | null > {
+    const user = await User.findOneBy({ idUser: id })
+    return user
   }
   async save(data: User): Promise<void | Error> {
-    throw new Error("Method not implemented.")
+    await User.save(data)
   }
   async update(id: string, data: User): Promise<User | Error> {
-    throw new Error("Method not implemented.")
+    await User.findOneBy({ idUser: id })
+    const userUpdated = await User.save(data)
+    return userUpdated
   }
   async delete(id: string): Promise<void | Error> {
-    throw new Error("Method not implemented.")
+    await User.delete({ idUser: id })
   }
 }
