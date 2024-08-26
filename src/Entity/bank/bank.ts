@@ -1,13 +1,13 @@
-import { User } from "@Entity/user/user";
-import { BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm";
+import { User } from "@Entity/user/user"
+import { BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm"
 
-export class Bank extends BaseEntity{
-    @PrimaryColumn()
-    idBank!:string
+export class Bank extends BaseEntity {
+  @PrimaryColumn({ type: "varchar" })
+  idBank!: string
 
-    @Column()
-    capital!: number
+  @Column({ type: "decimal" })
+  capital!: number
 
-    @OneToMany(()=> User,(user)=> user.bank)
-    users!:User
+  @OneToMany(() => User, (user:User) => user.bank)
+  users!: User
 }
