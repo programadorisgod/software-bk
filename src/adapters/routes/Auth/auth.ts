@@ -17,7 +17,7 @@ import { Router } from "express"
  * by initializing the required use cases, building the authentication controller,
  * and then assigning the routes to the Express router.
  *
- * @returns {void} The function does not return anything; it configures the router directly.
+ * @returns {Router} The function does not return anything; it configures the router directly.
  *
  * @example
  * // Integrating the authentication router in the main application
@@ -26,7 +26,7 @@ import { Router } from "express"
  * app.use(router); // Apply the configured routes to the Express app
  */
 
-export const createRouterAuth = ():Router => {
+export const createRouterAuth = (): Router => {
   const repository = new UserRepository()
 
   const useCaseAuthLogin = new UseCaseAuthLogin(repository)
