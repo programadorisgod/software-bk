@@ -3,12 +3,12 @@
 // @IsInt() is used to validate that the field value is an integer.
 // @IsNotEmpty() is used to ensure that the field value is not empty.
 // @Length(min, max) is used to validate that the field value is a specific length.
-import { IsEmail, IsInt, IsNotEmpty, IsString, Length } from "class-validator"
+import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator"
 
 export class RegisterDto {
   @IsNotEmpty()
   @Length(6, 12)
-  @IsInt()
+  @IsString()
   id!: string
 
   @IsNotEmpty()
@@ -32,5 +32,5 @@ export class RegisterDto {
   password!: string
 
   //validations will be posted later, as there is no biometric verification at the moment.
-  faceImage: string | undefined
+  faceImage!: number[]
 }
