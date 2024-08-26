@@ -3,7 +3,7 @@ import { IFailure, ISuccess } from "@interfaces/Results/results"
 import { UserRepository } from "@Repository/user/repository"
 import { Failure, Success } from "@utils/results/results"
 
-export class  UseCaseFindUser {
+export class UseCaseFindUser {
   private readonly repository: UserRepository
 
   constructor(userRepository: UserRepository) {
@@ -14,8 +14,8 @@ export class  UseCaseFindUser {
     try {
       const user = await this.repository.findById(id)
 
-      if (user instanceof Error) {
-        return Failure(user.message)
+      if (user instanceof Error || !user) {
+        return Failure(user?.message || "user not found")
       }
 
       return Success(user)

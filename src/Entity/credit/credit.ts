@@ -1,7 +1,7 @@
-import { BaseEntity, Column, ManyToOne, PrimaryColumn } from "typeorm"
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm"
 
 import { User } from "@Entity/user/user"
-
+@Entity("credits")
 export class Credit extends BaseEntity {
   @PrimaryColumn({ type: "varchar" })
   idCredit!: string
@@ -57,6 +57,6 @@ export class Credit extends BaseEntity {
   @Column({ type: "varchar" })
   inflationType!: string
 
-  @ManyToOne(() => User, (user:User) => user.credit)
+  @ManyToOne(() => User, (user: User) => user.credit)
   users!: User
 }

@@ -5,30 +5,34 @@ import { UseCaseAuthRegister } from "@useCases/Auth/register"
 
 export class AuthController {
   private readonly useCaseAuthLogin: UseCaseAuthLogin
-  private readonly useCaseRegister: UseCaseAuthRegister
+  private readonly usecaseAuthRegister: UseCaseAuthRegister
 
   constructor(
     useCaseLogin: UseCaseAuthLogin,
     usecaseRegister: UseCaseAuthRegister,
   ) {
     this.useCaseAuthLogin = useCaseLogin
-    this.useCaseRegister = usecaseRegister
+    this.usecaseAuthRegister = usecaseRegister
+
+    //Enlazed the methods to the class
+    this.register = this.register.bind(this)
+    this.login = this.login.bind(this)
   }
 
   async register(req: Request, res: Response, next: NextFunction) {
     const user: RegisterDto = req.body
 
-    const userCreated = await this.useCaseRegister.create(user)
+    const userCreated = await this.usecaseAuthRegister.create(user)
 
     if (!userCreated.success) {
       const error = {
-        status: 403,
+        status: userCreated.statusCode,
         message: userCreated.error,
       }
       return next(error)
     }
 
-    res.status(200).json({ message: userCreated.value })
+    res.status(userCreated.statusCode).json({ message: userCreated.value })
   }
 
   async login(req: Request, res: Response, next: NextFunction) {
@@ -38,12 +42,12 @@ export class AuthController {
 
     if (!userLogged.success) {
       const error = {
-        status: 403,
+        status: userLogged.statusCode,
         message: userLogged.error,
       }
       return next(error)
     }
 
-    res.status(200).json({ message: userLogged.value })
+    res.status(userLogged.statusCode).json({ message: userLogged.value })
   }
 }

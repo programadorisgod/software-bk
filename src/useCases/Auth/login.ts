@@ -1,7 +1,10 @@
 import { LoginDto } from "@Dtos/Auth/loginDto"
-import { IFailure, ISuccess } from "@interfaces/Results/results"
+import {
+  IFailureProcess,
+  ISuccessProcess,
+} from "@interfaces/Results/resultsAPI"
 import { UserRepository } from "@Repository/user/repository"
-import { Failure, Success } from "@utils/results/results"
+import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
 
 export class UseCaseAuthLogin {
   private readonly repository: UserRepository
@@ -10,12 +13,14 @@ export class UseCaseAuthLogin {
     this.repository = userRepositroy
   }
 
-  async login(user: LoginDto): Promise<ISuccess<any> | IFailure<any>> {
+  async login(
+    user: LoginDto,
+  ): Promise<ISuccessProcess<any> | IFailureProcess<any>> {
     try {
       const userFound = await this.repository.findById(user.phoneNumber)
 
       if (userFound instanceof Error) {
-        return Failure(userFound.message)
+        return FailureProcess(userFound.message, 403)
       }
 
       if (!userFound) {
@@ -23,9 +28,9 @@ export class UseCaseAuthLogin {
       }
       //rest of the logic
 
-      return Success("Your message")
+      return SuccessProcess("Your message", 200)
     } catch (error) {
-      return Failure("An unexpected error occurred")
+      return FailureProcess("An unexpected error occurred", 500)
     }
   }
 }

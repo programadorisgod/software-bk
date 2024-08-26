@@ -4,15 +4,23 @@ import cors from "cors"
 import { createRouterUser } from "@routes/users/createRouter"
 import helmet from "helmet"
 import { DataBase } from "@frameworks/database/init"
+import { createRouterAuth } from "@routes/Auth/auth"
 
 const app = express()
 
 const PORT = process.env.PORT || process.argv[3] || 3000
 
-const BD = DataBase.Instance
+async function startDB() {
+  const BD = DataBase.Instance
+  const dataSource = await BD.connectDB() // called the method for connecting the Database
 
-BD.connectDB() // called the method for connecting the Database
+  if (!dataSource) {
+    console.log("Error connecting to the database")
+    process.exit(1)
+  }
+}
 
+startDB()
 /** We disable the ‘X-Powered-By’ header in the HTTP response.
  This header, by default, is added by Express and discloses Express server usage to clients. */
 app.disable("x-powered-by")
@@ -28,7 +36,7 @@ app.use(createRouterUser())
 
 //Middleware
 app.use(errorHandlerMiddleware)
-
+app.use(createRouterAuth())
 app.listen(PORT, () => {
   console.log(`Server running in http://localhost:${PORT}`)
 })

@@ -1,6 +1,7 @@
 import { User } from "@Entity/user/user"
-import { BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm"
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 
+@Entity("banks")
 export class Bank extends BaseEntity {
   @PrimaryColumn({ type: "varchar" })
   idBank!: string
@@ -8,6 +9,6 @@ export class Bank extends BaseEntity {
   @Column({ type: "decimal" })
   capital!: number
 
-  @OneToMany(() => User, (user:User) => user.bank)
-  users!: User
+  @OneToMany(() => User, (user: User) => user.bank)
+  users!: User[]
 }

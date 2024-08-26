@@ -1,9 +1,13 @@
 import { RegisterDto } from "@Dtos/Auth/registerDto"
 import { Bank } from "@Entity/bank/bank"
 import { User } from "@Entity/user/user"
-import { IFailure, ISuccess } from "@interfaces/Results/results"
+import {
+  IFailureProcess,
+  ISuccessProcess,
+} from "@interfaces/Results/resultsAPI"
 import { UserRepository } from "@Repository/user/repository"
 import { Failure, Success } from "@utils/results/results"
+import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
 
 export class UseCaseAuthRegister {
   private readonly repository: UserRepository
@@ -12,31 +16,34 @@ export class UseCaseAuthRegister {
     this.repository = userRepository
   }
 
-  async create(userDto: RegisterDto): Promise<ISuccess<any> | IFailure<any>> {
+  async create(
+    userDto: RegisterDto,
+  ): Promise<ISuccessProcess<any> | IFailureProcess<any>> {
     try {
-
       const newUser = new User()
-        newUser.idUser = userDto.id
-        newUser.name = userDto.name
-        newUser.lastName = userDto.lastName
-        newUser.email = userDto.email
-        newUser.phoneNumber = userDto.phoneNumber
-        newUser.password = userDto.password
-        newUser.faceImage = []
-        newUser.age = 0 
-        newUser.movement = [] 
-        newUser.bank = {} as Bank 
-        newUser.credit = [] 
+      newUser.idUser = userDto.id
+      newUser.name = userDto.name
+      newUser.lastName = userDto.lastName
+      newUser.email = userDto.email
+      newUser.phoneNumber = userDto.phoneNumber
+      newUser.password = userDto.password
+      newUser.faceImage = []
+      newUser.age = 0
+      newUser.movement = []
+      newUser.bank = {} as Bank
+      newUser.credit = []
 
       const userCreated = await this.repository.save(newUser)
 
       if (userCreated instanceof Error) {
-        return Failure(userCreated.message)
+        return FailureProcess(userCreated.message, 403)
       }
 
-      return Success("User created succesfully")
+      return SuccessProcess("User created succesfully", 201)
     } catch (error) {
-      return Failure("An unexpected error occurred")
+      console.log(error)
+
+      return FailureProcess("An unexpected error occurred", 500)
     }
   }
 }

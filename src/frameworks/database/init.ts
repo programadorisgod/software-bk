@@ -10,33 +10,38 @@ config()
 
 export class DataBase {
   private static _intance: DataBase
+  private appDataSource: DataSource
 
-  private constructor() {}
+  private constructor() {
+    const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env
+    this.appDataSource = new DataSource({
+      type: "postgres",
+      host: PGHOST,
+      port: 5432,
+      password: PGPASSWORD,
+      database: PGDATABASE,
+      username: PGUSER,
+      entities: [Bank, Credit, Movement, Payment, User],
+      synchronize: true,
+      logging: true,
+      ssl: { rejectUnauthorized: false },
+    })
+  }
+
+  public async connectDB(): Promise<DataSource | undefined> {
+    try {
+      await this.appDataSource.initialize()
+      return this.appDataSource
+    } catch (error) {
+      console.log("error de conexion Bd " + error)
+      return undefined
+    }
+  }
+
   public static get Instance(): DataBase {
     if (!DataBase._intance) {
       DataBase._intance = new DataBase()
     }
     return DataBase._intance
-  }
-  public connectDB(): DataSource | undefined {
-    try {
-      const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env
-      const appDataSource = new DataSource({
-        type: "postgres",
-        host: PGHOST,
-        port: 5432,
-        password: PGPASSWORD,
-        database: PGDATABASE,
-        username: PGUSER,
-        entities: [User, Credit, Bank, Payment, Movement],
-        synchronize: true,
-        logging: true,
-      })
-      console.log("conexion establecida ")
-      return appDataSource
-    } catch (error) {
-      console.log("error de conexion Bd" + error)
-      return undefined 
-    }
   }
 }
