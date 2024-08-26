@@ -1,4 +1,4 @@
-export interface IReadableRepository<T, ID = number> {
-  findById(id: ID): Promise<T | Error>
+export interface IReadableRepository<T> {
+  findById(id: string): Promise<T | Error | null >
   findAll(): Promise<T[] | Error>
 }
