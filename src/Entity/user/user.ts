@@ -31,12 +31,12 @@ export class User extends BaseEntity {
   @Column("simple-array")
   faceImage!: number[]
 
-  @OneToMany(()=> Movement,( movement: Movement ) => movement.user)
-  movement!:Movement[]
+  @OneToMany(()=> Movement,( movement ) => movement.user)
+  movement!:Movement
 
-  @ManyToOne(()=> Bank,(bank: Bank)=>bank.users)
+  @ManyToOne(()=> Bank,(bank)=>bank.users)
   bank!:Bank
 
-  @OneToMany(()=> Credit,(credit: Credit)=>credit.users)
-  credit!:Credit[]
+  @OneToMany(()=> Credit,(credit)=>credit.users)
+  credit!:Credit
 }
