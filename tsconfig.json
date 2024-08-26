@@ -28,7 +28,8 @@
       "@Repository/*": ["Repository/*"],
       "@useCases/*": ["useCases/*"],
       "@Dtos/*": ["Dtos/*"],
-      "@constants/*": ["CONSTANTS/*"]
+      "@constants/*": ["CONSTANTS/*"],
+      "@database": ["frameworks/database/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

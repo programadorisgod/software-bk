@@ -32,5 +32,5 @@ export class RegisterDto {
   password!: string
 
   //validations will be posted later, as there is no biometric verification at the moment.
-  faceImage: string | undefined
+  faceImage!: number[]
 }

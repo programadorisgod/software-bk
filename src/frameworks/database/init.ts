@@ -13,12 +13,14 @@ export class DataBase {
   private static _intance: DataBase
 
   private constructor() {}
+  
   public getInstance(): DataBase {
     if (!DataBase._intance) {
       DataBase._intance = new DataBase()
     }
     return DataBase._intance
   }
+
   public connectDB(): DataSource {
     const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
     const appDataSource = new DataSource({
