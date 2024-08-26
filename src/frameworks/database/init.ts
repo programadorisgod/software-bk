@@ -1,4 +1,3 @@
-
 import { DataSource } from "typeorm"
 import { config } from "dotenv"
 
@@ -13,25 +12,31 @@ export class DataBase {
   private static _intance: DataBase
 
   private constructor() {}
-  public getInstance(): DataBase {
+  public static get Instance(): DataBase {
     if (!DataBase._intance) {
       DataBase._intance = new DataBase()
     }
     return DataBase._intance
   }
-  public connectDB(): DataSource {
-    const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
-    const appDataSource = new DataSource({
-      type: "postgres",
-      host: PGHOST,
-      port: 5432,
-      password:PGPASSWORD,
-      database:PGDATABASE,
-      username:PGUSER,
-      entities:[User,Credit,Bank,Payment,Movement],
-      synchronize:true,
-      logging:true
-    })
-    return appDataSource
+  public connectDB(): DataSource | undefined {
+    try {
+      const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env
+      const appDataSource = new DataSource({
+        type: "postgres",
+        host: PGHOST,
+        port: 5432,
+        password: PGPASSWORD,
+        database: PGDATABASE,
+        username: PGUSER,
+        entities: [User, Credit, Bank, Payment, Movement],
+        synchronize: true,
+        logging: true,
+      })
+      console.log("conexion establecida ")
+      return appDataSource
+    } catch (error) {
+      console.log("error de conexion Bd" + error)
+      return undefined 
+    }
   }
 }
