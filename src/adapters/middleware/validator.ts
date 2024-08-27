@@ -21,10 +21,23 @@ export const validateDto = (DtoClass: any) => {
           .flat(),
       })
     }
-    
+
     //if everything is OK, we move on to the controller
     req.body = dtoInstance
     next()
     return
+  }
+}
+
+export class Validation {
+  static phoneNumber(phoneNumber: string) {
+    if (typeof phoneNumber !== "string")
+      throw new Error("phoneNumber must be a string")
+    if (phoneNumber.length < 10)
+      throw new Error("phoneNumber must be at least 10 characters long")
+  }
+
+  static password(pass: string) {
+    if (typeof pass !== "string") throw new Error("password must be a string")
   }
 }

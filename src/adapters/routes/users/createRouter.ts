@@ -7,6 +7,7 @@ import { UseCaseFindUser } from "@useCases/users/find"
 import { UseCaseFindAllUser } from "@useCases/users/findAll"
 import { UseCaseUpdateUser } from "@useCases/users/update"
 import { UserControllerBuilder } from "builders/user/userBuilder"
+import { Router } from "express"
 
 /**
  * Create and configure the router for user-related routes.
@@ -22,7 +23,7 @@ import { UserControllerBuilder } from "builders/user/userBuilder"
  * app.use(createRouterUser());
  */
 
-export const createRouterUser = () => {
+export const createRouterUser = (): Router => {
   const repository = new UserRepository()
 
   const useCaseFindAll = new UseCaseFindAllUser(repository)
