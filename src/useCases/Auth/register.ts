@@ -6,7 +6,6 @@ import {
   ISuccessProcess,
 } from "@interfaces/Results/resultsAPI"
 import { UserRepository } from "@Repository/user/repository"
-import { Failure, Success } from "@utils/results/results"
 import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
 
 export class UseCaseAuthRegister {
