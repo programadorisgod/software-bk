@@ -1,5 +1,7 @@
+import { FailureProcess } from "@utils/results/resultsAPI"
+
 import { config } from "dotenv"
-import * as jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 
 config()
 
@@ -9,15 +11,16 @@ export const tokenSing = async (phoneNumber: string) => {
   try {
     return jwt.sign(
       {
-        phoneNumber,
+        phoneNumber
       },
       JSON_KEY_TOKEN as string,
       {
         expiresIn: "10m",
-      },
+      }
     )
   } catch (error) {
-    throw new Error("No se pudo crear el token")
+    console.log(error)
+    return FailureProcess("the token dont have created", 500)
   }
 }
 
@@ -26,6 +29,6 @@ export const TokenProccesing = async (token: string | undefined) => {
     const data = jwt.verify(token as string, JSON_KEY_TOKEN as string)
     return data
   } catch (error) {
-    throw new Error("Bad preccesing the token")
+    return FailureProcess("Token no procceced", 500)
   }
 }

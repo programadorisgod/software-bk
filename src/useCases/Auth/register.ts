@@ -6,8 +6,8 @@ import {
   ISuccessProcess,
 } from "@interfaces/Results/resultsAPI"
 import { UserRepository } from "@Repository/user/repository"
-import { Failure, Success } from "@utils/results/results"
 import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
+import { genSaltSync, hashSync } from "bcrypt-ts"
 
 export class UseCaseAuthRegister {
   private readonly repository: UserRepository
@@ -20,13 +20,24 @@ export class UseCaseAuthRegister {
     userDto: RegisterDto,
   ): Promise<ISuccessProcess<any> | IFailureProcess<any>> {
     try {
+
+      const userFound = await this.repository.findById(userDto.id)
+      
+      if(userFound){
+        return FailureProcess('This user exist',409)
+      }
+
+      const password = userDto.password
+      const salt = genSaltSync(10)
+      const hash = hashSync(password,salt)
+
       const newUser = new User()
       newUser.idUser = userDto.id
       newUser.name = userDto.name
       newUser.lastName = userDto.lastName
       newUser.email = userDto.email
       newUser.phoneNumber = userDto.phoneNumber
-      newUser.password = userDto.password
+      newUser.password = hash
       newUser.faceImage = []
       newUser.age = 0
       newUser.movement = []

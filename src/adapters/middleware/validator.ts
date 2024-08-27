@@ -29,15 +29,3 @@ export const validateDto = (DtoClass: any) => {
   }
 }
 
-export class Validation {
-  static phoneNumber(phoneNumber: string) {
-    if (typeof phoneNumber !== "string")
-      throw new Error("phoneNumber must be a string")
-    if (phoneNumber.length < 10)
-      throw new Error("phoneNumber must be at least 10 characters long")
-  }
-
-  static password(pass: string) {
-    if (typeof pass !== "string") throw new Error("password must be a string")
-  }
-}
