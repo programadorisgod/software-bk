@@ -21,7 +21,7 @@ async function startDB() {
 }
 
 startDB()
-/** We disable the ‘X-Powered-By’ header in the HTTP response.
+/** We disable the ‘X-Powered-By’ header in the HTTP response!.
  This header, by default, is added by Express and discloses Express server usage to clients. */
 app.disable("x-powered-by")
 
