@@ -37,7 +37,7 @@ jobs:
 
         run: npm i -g @railway/cli
 
-      - name: Deploy to railway service
-        run: railway up --sercive airy-courtesy
+      - name: Deploy to railway
+        run: railway up --service airy-courtesy
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
