@@ -18,6 +18,7 @@
     "skipLibCheck": true,
     "rootDir": "./src",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@routes/*": ["adapters/routes/*"],
       "@controllers/*": ["adapters/controllers/*"],
@@ -29,7 +30,9 @@
       "@useCases/*": ["useCases/*"],
       "@Dtos/*": ["Dtos/*"],
       "@constants/*": ["CONSTANTS/*"],
-      "@frameworks/*": ["frameworks/*"]
+      "@frameworks/*": ["frameworks/*"],
+      "@middlewares/*": ["adapters/middleware/*"],
+      "@builders/*": ["builders/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

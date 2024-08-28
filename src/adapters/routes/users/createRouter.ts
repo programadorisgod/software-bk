@@ -7,8 +7,8 @@ import { UseCaseFindUser } from "@useCases/users/find"
 import { UseCaseFindAllUser } from "@useCases/users/findAll"
 import { UseCaseUpdateUser } from "@useCases/users/update"
 import { checkToken } from "adapters/middleware/handleJwt"
-import { UserControllerBuilder } from "builders/user/userBuilder"
 import { Router } from "express"
+import { UserControllerBuilder } from "@builders/user/userBuilder"
 
 /**
  * Create and configure the router for user-related routes.
@@ -41,10 +41,10 @@ export const createRouterUser = (): Router => {
     .build()
 
   if (controller instanceof UserController) {
-    router.get(`${BASE_URL}/users`,checkToken, controller.findAll)
-    router.get(`${BASE_URL}/users/:id`,checkToken, controller.findById)
-    router.delete(`${BASE_URL}/users/:id`,checkToken, controller.delete)
-    router.put(`${BASE_URL}/users/:id`,checkToken, controller.update)
+    router.get(`${BASE_URL}/users`, checkToken, controller.findAll)
+    router.get(`${BASE_URL}/users/:id`, checkToken, controller.findById)
+    router.delete(`${BASE_URL}/users/:id`, checkToken, controller.delete)
+    router.put(`${BASE_URL}/users/:id`, checkToken, controller.update)
   } else {
     console.log(`[Error] when building UserController: ${controller.error} `)
   }

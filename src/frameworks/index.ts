@@ -1,4 +1,4 @@
-import { errorHandlerMiddleware } from "adapters/middleware/handleError"
+import { errorHandlerMiddleware } from "@middlewares/handleError"
 import express, { json } from "express"
 import cors from "cors"
 import { createRouterUser } from "@routes/users/createRouter"

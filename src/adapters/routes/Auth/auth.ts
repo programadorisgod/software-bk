@@ -6,8 +6,8 @@ import { RegisterDto } from "@Dtos/Auth/registerDto"
 import { UserRepository } from "@Repository/user/repository"
 import { UseCaseAuthLogin } from "@useCases/Auth/login"
 import { UseCaseAuthRegister } from "@useCases/Auth/register"
-import { validateDto } from "adapters/middleware/validator"
-import { AuthControllerBuilder } from "builders/Auth/authBuilder"
+import { validateDto } from "@middlewares/validator"
+import { AuthControllerBuilder } from "@builders/Auth/authBuilder"
 import { Router } from "express"
 
 /**
