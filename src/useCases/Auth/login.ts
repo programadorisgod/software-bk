@@ -4,7 +4,10 @@ import {
   ISuccessProcess,
 } from "@interfaces/Results/resultsAPI"
 import { UserRepository } from "@Repository/user/repository"
+import { tokenSing } from "@utils/JwtHelpers/handleJwt"
 import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
+
+import { compareSync } from "bcrypt-ts"
 
 export class UseCaseAuthLogin {
   private readonly repository: UserRepository
@@ -17,18 +20,24 @@ export class UseCaseAuthLogin {
     user: LoginDto,
   ): Promise<ISuccessProcess<any> | IFailureProcess<any>> {
     try {
-      const userFound = await this.repository.findById(user.phoneNumber)
+      const userFound = await this.repository.findByPhoneNumber(user.phoneNumber)
 
       if (userFound instanceof Error) {
         return FailureProcess(userFound.message, 403)
       }
 
       if (!userFound) {
-        //Return error 404 user not found
+        return FailureProcess("user does not exist", 404)
       }
-      //rest of the logic
 
-      return SuccessProcess("Your message", 200)
+      const resultDesencrytp = compareSync(user.password, userFound.password)
+
+      if (!resultDesencrytp) {
+        return FailureProcess("incorrect password or user", 404)
+      }
+
+      const tokenCreated = await tokenSing(userFound.phoneNumber)
+      return SuccessProcess(tokenCreated, 200)
     } catch (error) {
       return FailureProcess("An unexpected error occurred", 500)
     }
