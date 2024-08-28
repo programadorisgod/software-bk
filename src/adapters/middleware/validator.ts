@@ -21,10 +21,11 @@ export const validateDto = (DtoClass: any) => {
           .flat(),
       })
     }
-    
+
     //if everything is OK, we move on to the controller
     req.body = dtoInstance
     next()
     return
   }
 }
+
