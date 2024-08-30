@@ -32,7 +32,8 @@
       "@constants/*": ["CONSTANTS/*"],
       "@frameworks/*": ["frameworks/*"],
       "@middlewares/*": ["adapters/middleware/*"],
-      "@builders/*": ["builders/*"]
+      "@builders/*": ["builders/*"],
+      "@adapters/*": ["adapters/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

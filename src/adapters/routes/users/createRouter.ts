@@ -6,7 +6,7 @@ import { UseCaseUserDelete } from "@useCases/users/delete"
 import { UseCaseFindUser } from "@useCases/users/find"
 import { UseCaseFindAllUser } from "@useCases/users/findAll"
 import { UseCaseUpdateUser } from "@useCases/users/update"
-import { checkToken } from "adapters/middleware/handleJwt"
+import { checkToken } from "@adapters/middleware/handleJwt"
 import { Router } from "express"
 import { UserControllerBuilder } from "@builders/user/userBuilder"
 
