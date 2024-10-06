@@ -14,7 +14,6 @@ export class UserRepository implements ICRUDRepository<User> {
   }
   async save(data: User): Promise<void | Error> {
     await User.save(data)
-    console.log("User saved")
   }
   async update(id: string, data: User): Promise<User | Error> {
     await User.findOneBy({ idUser: id })
@@ -24,8 +23,12 @@ export class UserRepository implements ICRUDRepository<User> {
   async delete(id: string): Promise<void | Error> {
     await User.delete({ idUser: id })
   }
-  async findByPhoneNumber(phoneNumber:string):Promise<User | Error | null>{
-    const user = User.findOneBy({phoneNumber})
+  async findByPhoneNumber(phoneNumber: string): Promise<User | Error | null> {
+    const user = User.findOneBy({ phoneNumber })
+    return user
+  }
+  async findByMailUser(email: string): Promise<User | Error | null> {
+    const user = User.findOneBy({ email })
     return user
   }
 }

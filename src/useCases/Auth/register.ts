@@ -20,16 +20,15 @@ export class UseCaseAuthRegister {
     userDto: RegisterDto,
   ): Promise<ISuccessProcess<any> | IFailureProcess<any>> {
     try {
-
       const userFound = await this.repository.findById(userDto.id)
-      
-      if(userFound){
-        return FailureProcess('This user exist',409)
+
+      if (userFound) {
+        return FailureProcess("This user exist", 409)
       }
 
       const password = userDto.password
       const salt = genSaltSync(10)
-      const hash = hashSync(password,salt)
+      const hash = hashSync(password, salt)
 
       const newUser = new User()
       newUser.idUser = userDto.id
@@ -38,8 +37,9 @@ export class UseCaseAuthRegister {
       newUser.email = userDto.email
       newUser.phoneNumber = userDto.phoneNumber
       newUser.password = hash
-      newUser.faceImage = []
       newUser.age = 0
+      newUser.auth_token = ""
+      newUser.expiry_token = 0
       newUser.movement = []
       newUser.bank = {} as Bank
       newUser.credit = []

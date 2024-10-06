@@ -1,7 +1,6 @@
 import { TokenProccesing } from "@utils/JwtHelpers/handleJwt"
 import { NextFunction, Request, Response } from "express"
 
-
 export const checkToken = async (
   req: Request,
   res: Response,
@@ -9,10 +8,15 @@ export const checkToken = async (
 ) => {
   try {
     const tokenExtraction = extractTokenFromHeader(req)
-    const tokeData = await TokenProccesing(tokenExtraction)
-    if (tokeData) next()
+
+    const tokeData = TokenProccesing(tokenExtraction)
+
+    if (!tokeData.success)
+      res.status(tokeData.statusCode).json({ error: tokeData.error })
+
+    if (tokeData.success) next()
   } catch (error) {
-    res.status(409).send({ error: "ERROR TYPE authorization" })
+    res.status(409).send({ error: "ERROR_TYPE: authorization" })
   }
 }
 

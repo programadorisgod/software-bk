@@ -1,14 +1,17 @@
 import { router } from "@config/routerConfig"
-import { BASE_URL } from "@constants/constants"
-import { AuthController } from "@controllers/auth/auth"
 import { LoginDto } from "@Dtos/Auth/loginDto"
 import { RegisterDto } from "@Dtos/Auth/registerDto"
 import { UserRepository } from "@Repository/user/repository"
 import { UseCaseAuthLogin } from "@useCases/Auth/login"
 import { UseCaseAuthRegister } from "@useCases/Auth/register"
-import { validateDto } from "@middlewares/validator"
 import { AuthControllerBuilder } from "@builders/Auth/authBuilder"
 import { Router } from "express"
+import { UseCaseAuthForgotPassword } from "@useCases/Auth/forgotPassword"
+import { ForgotPasswordDto } from "@Dtos/Auth/forgotPasswordDto"
+import { checkToken } from "@middlewares/handleJwt"
+import { registerRoute } from "@adapters/config/routerConfig"
+import { UsecaseAuthResetPassword } from "@useCases/Auth/resetPassword"
+import { resetPasswordDto } from "@Dtos/Auth/resetPassword"
 
 /**
  * Creates and configures the authentication router.
@@ -29,27 +32,41 @@ import { Router } from "express"
 export const createRouterAuth = (): Router => {
   const repository = new UserRepository()
 
-  const useCaseAuthLogin = new UseCaseAuthLogin(repository)
+  const useCaseLogin = new UseCaseAuthLogin(repository)
   const useCaseRegister = new UseCaseAuthRegister(repository)
+  const useCaseForgotPassword = new UseCaseAuthForgotPassword(repository)
+  const usecaseResetPassword = new UsecaseAuthResetPassword(repository)
 
   const authController = new AuthControllerBuilder()
-    .withAuthLogin(useCaseAuthLogin)
+    .withAuthLogin(useCaseLogin)
     .withAuthRegister(useCaseRegister)
+    .withAuthForgotPassword(useCaseForgotPassword)
+    .withAuthResetPassword(usecaseResetPassword)
     .build()
 
-  if (authController instanceof AuthController) {
-    router.post(
-      `${BASE_URL}/auth/login`,
-      validateDto(LoginDto),
-      authController.login,
+  if (authController.success) {
+    registerRoute(router, "/auth/login", LoginDto, authController.value.login)
+    registerRoute(
+      router,
+      "/auth/register",
+      RegisterDto,
+      authController.value.register,
     )
-    router.post(
-      `${BASE_URL}/auth/register`,
-      validateDto(RegisterDto),
-      authController.register,
+    registerRoute(
+      router,
+      "/auth/forgot-password",
+      ForgotPasswordDto,
+      authController.value.forgotPassword,
+      checkToken,
+    )
+    registerRoute(
+      router,
+      "/auth/reset-password",
+      resetPasswordDto,
+      authController.value.resetPassword,
     )
   } else {
-    console.log(`Error when building AuthController: ${authController.error}`)
+    console.error(`Error when building AuthController: ${authController.error}`)
   }
 
   return router
