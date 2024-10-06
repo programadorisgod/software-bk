@@ -34,10 +34,10 @@ export interface ISuccess<T> {
  * This interface is used to encapsulate the result of an operation that has failed. 
  * The `success` field is set to `false` to indicate that the operation failed.
  * 
- * @template T - Generic type representing the error of the failed operation. This can be any type that describes the error.
+ * @template E - Generic type representing the error of the failed operation. This can be any type that describes the error.
  * 
  * @property {false} success - Indicates that the operation failed.
- * @ @property {T} error - The error representing the failed result. Can be any type defined by the generic `T` type.
+ * @ @property {E} error - The error representing the failed result. Can be any type defined by the generic `T` type.
  * 
  * @example
  // Interface representing a failed result with an error message.
@@ -54,7 +54,7 @@ export interface ISuccess<T> {
  * };
  */
 
-export interface IFailure<T> {
+export interface IFailure<E> {
   success: false
-  error: T
+  error: E
 }

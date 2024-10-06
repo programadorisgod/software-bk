@@ -1,0 +1,8 @@
+{"level":"error","timestamp":"2024-10-06T22:11:06.696Z"}
+{"code":"ERR_UNHANDLED_REJECTION","level":"error","name":"UnhandledPromiseRejection","timestamp":"2024-10-06T22:19:39.595Z"}
+{"code":"ERR_UNHANDLED_REJECTION","level":"error","name":"UnhandledPromiseRejection","timestamp":"2024-10-06T22:20:07.263Z"}
+{"code":"ERR_UNHANDLED_REJECTION","level":"error","name":"UnhandledPromiseRejection","timestamp":"2024-10-06T22:20:45.619Z"}
+{"code":"ERR_UNHANDLED_REJECTION","level":"error","message":"Excepción no capturada:  This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). The promise rejected with the reason \"false\".","name":"UnhandledPromiseRejection","stack":"UnhandledPromiseRejection: This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). The promise rejected with the reason \"false\".\n    at throwUnhandledRejectionsMode (node:internal/process/promises:389:7)\n    at processPromiseRejections (node:internal/process/promises:470:17)\n    at process.processTicksAndRejections (node:internal/process/task_queues:96:32)","timestamp":"2024-10-06T22:22:55.363Z"}
+{"level":"error","message":"Unhandled Rejection at:","timestamp":"2024-10-06T22:25:19.898Z"}
+{"level":"error","message":"Unhandled Rejection at:","timestamp":"2024-10-06T22:27:32.458Z"}
+{"level":"error","message":"Unhandled Rejection at:","timestamp":"2024-10-06T22:27:50.326Z"}

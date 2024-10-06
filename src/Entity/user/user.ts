@@ -35,8 +35,11 @@ export class User extends BaseEntity {
   @Column({ type: "int" })
   age!: number
 
-  @Column("simple-array")
-  faceImage!: number[]
+  @Column("varchar")
+  auth_token!: String
+
+  @Column("numeric")
+  expiry_token!: number
 
   @OneToMany(() => Movement, (movement: Movement) => movement.user)
   movement!: Movement[]

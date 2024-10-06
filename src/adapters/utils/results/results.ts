@@ -23,7 +23,6 @@ export const Success = <T>(value: T): ISuccess<T> => ({
   value,
 })
 
-
 /**
  * Creates a failed result object.
  *
@@ -43,7 +42,28 @@ export const Success = <T>(value: T): ISuccess<T> => ({
  * // Result: { success: false, error: { code: 500, message: ‘Internal Server Error’ } }
  */
 
-export const Failure = <T>(error: T): IFailure<T> => ({
+export const Failure = <E>(error: E): IFailure<E> => ({
   success: false,
   error,
 })
+
+/**
+ * `Result` is a generic type that represents the outcome of an operation which can either succeed or fail.
+ * 
+ * @template T - The type of the value in case of success.
+ * @template E - The type of the error in case of failure. Defaults to `string`.
+ * 
+ * This type can be one of the following:
+ * - `ReturnType<typeof Success<T>>`: Represents a successful result containing a value of type `T`.
+ * - `ReturnType<typeof Failure<E>>`: Represents a failed result containing an error of type `E`.
+ * 
+ * Example usage:
+ * ```typescript
+ * const successResult: Result<number> = Success(42);
+ * const failureResult: Result<string> = Failure("Something went wrong");
+ * ```
+ */
+
+export type Result<T, E = string> =
+  | ReturnType<typeof Success<T>>
+  | ReturnType<typeof Failure<E>>

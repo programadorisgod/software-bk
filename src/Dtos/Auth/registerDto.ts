@@ -31,6 +31,4 @@ export class RegisterDto {
   @Length(8, 30)
   password!: string
 
-  //validations will be posted later, as there is no biometric verification at the moment.
-  faceImage!: number[]
 }
