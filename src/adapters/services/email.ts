@@ -23,7 +23,7 @@ export class EmailService {
     try {
       const emailOptions = {
         from: process.env.USER,
-        to: "catapiascastro@gmail.com",
+        to: email,
         subject: `Restablecer contraseña. Por favor no responder a este correo`,
         template: "emailTemplate",
         context: {
@@ -57,7 +57,7 @@ export class EmailService {
     try {
       const emailOptions = {
         from: process.env.USER,
-        to: "catapiascastro@gmail.com",
+        to: email,
         subject: `Contraseña restablecida. Por favor no responder a este correo`,
         template: "emailUpdatedPassword",
         context: {

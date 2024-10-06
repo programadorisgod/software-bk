@@ -36,7 +36,7 @@ export class UseCaseAuthForgotPassword {
   }
 
   private generateResetUrl({ email, token }: ResetUrlProps): string {
-    const url = `http://localhost:3000/api/v1/auth/view/reset-password`
+    const url = `https://api-software-economico.up.railway.app/api/v1/auth/view/reset-password`
     const emailEncode = encodeURIComponent(email)
     const resetUrl = `${url}?token=${token}&email=${emailEncode}`
     return resetUrl
