@@ -57,7 +57,6 @@ export const createRouterAuth = (): Router => {
       "/auth/forgot-password",
       ForgotPasswordDto,
       authController.value.forgotPassword,
-      checkToken,
     )
     registerRoute(
       router,
