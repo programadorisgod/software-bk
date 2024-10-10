@@ -37,7 +37,7 @@ export class UseCaseAuthRegister {
       newUser.email = userDto.email
       newUser.phoneNumber = userDto.phoneNumber
       newUser.password = hash
-      newUser.age = 0
+      newUser.balance = 0.00
       newUser.auth_token = ""
       newUser.expiry_token = 0
       newUser.movement = []
