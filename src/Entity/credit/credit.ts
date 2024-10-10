@@ -1,62 +1,48 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm"
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm"
 
+import { QuotesPaid } from "@Entity/quotesPaid/quotesPaid"
 import { User } from "@Entity/user/user"
 @Entity("credits")
 export class Credit extends BaseEntity {
-  @PrimaryColumn({ type: "varchar" })
+  @PrimaryColumn({ type: "varchar", unique: true })
   idCredit!: string
 
-  @Column({ type: "decimal" })
-  principalAmount!: number
+  @ManyToOne(() => User, (user: User) => user.credit)
+  user!: User
 
   @Column({ type: "decimal" })
-  interestRate!: number
+  amountApproved!: number
 
   @Column({ type: "varchar" })
   interestType!: string
 
-  @Column({ type: "varchar" })
-  gradientType!: string
-
   @Column({ type: "decimal" })
-  gradientValue!: number
+  interestRate!: number
 
   @Column({ type: "integer" })
-  term!: number
+  totalInterest!: number
+
+  @OneToMany(() => QuotesPaid, (quotesPaid: QuotesPaid) => quotesPaid.credit)
+  quotesPaid!: QuotesPaid[]
+
+  @Column({ type: "integer" })
+  quotesNumber!: number
+
+  @Column({ type: "integer" })
+  totalPaid!: number
+
+  @Column({ type: "integer" })
+  paidInterest!: number
+
+  @Column({ type: "varchar" })
+  period!: string
 
   @Column({ type: "timestamp" })
-  starDate!: Date
+  startDate!: Date
 
   @Column({ type: "timestamp" })
   endDate!: Date
 
-  @Column({ type: "decimal" })
-  totalAmountDue!: number
-
   @Column({ type: "varchar" })
-  status!: string
-
-  @Column({ type: "timestamp" })
-  createdAt!: Date
-
-  @Column({ type: "timestamp" })
-  updateAr!: Date
-
-  @Column({ type: "decimal" })
-  tirType!: number
-
-  @Column({ type: "varchar" })
-  uvrType!: string
-
-  @Column({ type: "varchar" })
-  investmentAlternativeType!: string
-
-  @Column({ type: "varchar" })
-  bondType!: string
-
-  @Column({ type: "varchar" })
-  inflationType!: string
-
-  @ManyToOne(() => User, (user: User) => user.credit)
-  users!: User
+  creditStatus!: string
 }
