@@ -6,6 +6,7 @@ import { Credit } from "@Entity/credit/credit"
 import { Movement } from "@Entity/movement/movement"
 import { Payment } from "@Entity/payment/payment"
 import { User } from "@Entity/user/user"
+import { QuotesPaid } from "@Entity/quotesPaid/quotesPaid"
 config()
 
 export class DataBase {
@@ -21,7 +22,7 @@ export class DataBase {
       password: PGPASSWORD,
       database: PGDATABASE,
       username: PGUSER,
-      entities: [Bank, Credit, Movement, Payment, User],
+      entities: [Bank, Credit, Movement, Payment, User, QuotesPaid],
       synchronize: true,
       logging: true,
       ssl: { rejectUnauthorized: false },

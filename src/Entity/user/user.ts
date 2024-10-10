@@ -32,8 +32,8 @@ export class User extends BaseEntity {
   @Column({ type: "varchar" })
   password!: string
 
-  @Column({ type: "int" })
-  age!: number
+  @Column({ type: "decimal" })
+  balance!: number
 
   @Column("varchar")
   auth_token!: String
@@ -47,6 +47,6 @@ export class User extends BaseEntity {
   @ManyToOne(() => Bank, (bank: Bank) => bank.users)
   bank!: Bank
 
-  @OneToMany(() => Credit, (credit: Credit) => credit.users)
+  @OneToMany(() => Credit, (credit: Credit) => credit.user)
   credit!: Credit[]
 }
