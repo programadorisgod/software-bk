@@ -33,7 +33,7 @@ export class UserRepository implements ICRUDRepository<User> {
     return user
   }
   async updateBalance(phoneNumber:string, amount:number): Promise< UpdateResult | Error| null> {
-    const userUpdate = await User.update(phoneNumber,{balance:amount})  
+    const userUpdate = await User.update({phoneNumber},{balance:amount})  
     return userUpdate
   }
 }

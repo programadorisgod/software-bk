@@ -24,9 +24,12 @@ export class caseUseTransferMount{
             if(!amountVerify || !userDebit) return FailureProcess('No se encontro usuario',404)
             if(amountVerify instanceof Error || userDebit instanceof Error) return FailureProcess(amountVerify.name, 403)  
             if(amountVerify.balance < data.omuntMovement) return FailureProcess('dont have enough balance',403)
-
-            await this.repositoryUser.updateBalance(data.destination,data.omuntMovement)// update the balace the count destination 
-
+    
+            console.log(data.omuntMovement,data.destination);
+            const amount = parseInt(userDebit.balance.toString()) + parseInt(data.omuntMovement.toString())
+            await this.repositoryUser.updateBalance(data.destination,amount)// update the balace the count destination 
+            
+            
             const amountNew = amountVerify.balance - data.omuntMovement
 
             this.repositoryUser.updateBalance(amountVerify.phoneNumber,amountNew)
@@ -50,6 +53,7 @@ export class caseUseTransferMount{
             movementCredit.destination = userDebit.phoneNumber
             movementCredit.user = amountVerify
             movementCredit.typeTransfer= 'Credito'
+
             await this.repositoryMovement.save(movementCredit)
             
             await this.repositoryMovement.save(movementDebit)

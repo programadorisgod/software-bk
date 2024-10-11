@@ -36,8 +36,9 @@ export class UseCaseAuthLogin {
         return FailureProcess("incorrect password or user", 404)
       }
 
-      const tokenCreated = await tokenSing(userFound.phoneNumber)
-      return SuccessProcess(tokenCreated, 200)
+      //const tokenCreated = await tokenSing(userFound.phoneNumber)
+      
+      return SuccessProcess(userFound, 200)
     } catch (error) {
       return FailureProcess("An unexpected error occurred", 500)
     }
