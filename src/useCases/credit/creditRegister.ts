@@ -11,6 +11,8 @@ import {
 import { calculateDateEnd } from "@utils/Date/calculateDateEnd"
 import { randomUUID } from "node:crypto"
 import { getDateColombia } from "@adapters/utils/Date/date";
+import { Movement } from "@Entity/movement/movement";
+import { movementRepository } from "@Repository/movement/repository"
 
 export class UseCaseCreditRegister {
   private readonly repository: CreditRepository
@@ -23,6 +25,7 @@ export class UseCaseCreditRegister {
     Promise<ISuccessProcess<any> | IFailureProcess<any>> {
       try {
         const userRepository = new UserRepository()
+        const MovementRepository = new movementRepository()
 
         let userFound = null
 
@@ -42,16 +45,9 @@ export class UseCaseCreditRegister {
           return FailureProcess("user does not exist", 404)
         }
 
-        let idCredit: string = ""
-
-        userFound.credit.forEach(credit => {
-          idCredit = credit.idCredit ;
-        });
-
         if (userFound?.credit?.length > 0) {
           return FailureProcess("user already has a credit", 409)
         }
-
         
         const intRate = parseFloat(credit.interestRate)/100
 
@@ -88,6 +84,27 @@ export class UseCaseCreditRegister {
         if(creditCreated instanceof Error) {
           return FailureProcess(creditCreated.message, 403)
         }
+
+        const newAmount = parseFloat(newCredit.amountApproved.toString()) + parseFloat(userFound.balance.toString())
+
+        const updateBalance = userRepository.updateBalance(credit.userId,newAmount)
+        if(updateBalance instanceof Error) 
+          return FailureProcess(updateBalance.message, 403)
+
+        const movementCredit = new Movement()
+        movementCredit.idMovement = randomUUID()
+        movementCredit.description = "Credit Approved"
+        movementCredit.dateMovement = getDateColombia()
+        movementCredit.omuntMovement = newCredit.amountApproved
+        movementCredit.origin = "Nekli"
+        movementCredit.user = userFound
+        movementCredit.typeTransfer = 'Debito'
+
+        const movementCreated = await MovementRepository.save(movementCredit)
+
+        if(movementCreated instanceof Error) 
+          return FailureProcess(movementCreated.message, 403)
+        
         return SuccessProcess("Credit created succesfully", 200)
       } catch (error) {
         console.log(error)
