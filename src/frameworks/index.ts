@@ -7,6 +7,7 @@ import { errorHandlerMiddleware } from "@middlewares/handleError"
 import { createRouterUser } from "@routes/users/createRouter"
 import { DataBase } from "@frameworks/database/init"
 import { createRouterAuth } from "@routes/Auth/auth"
+import { CreateRouterCredit } from "@adapters/routes/credit/creditRouter"
 import { createWriteStream } from "node:fs"
 import path from "node:path"
 import { logger } from "@utils/Log/logger"
@@ -58,6 +59,7 @@ app.get("/get-ip", async (_req: Request, res: Response) => {
     res.status(500).json({ error: "Error fetching IP" })
   }
 })
+app.use(CreateRouterCredit())
 //Middleware
 app.use(errorHandlerMiddleware)
 app.use(createRouterAuth())

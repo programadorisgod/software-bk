@@ -1,4 +1,4 @@
-import { IsDate, IsInt, IsNotEmpty, IsString, Length } from "class-validator"
+import { IsInt, IsNotEmpty, IsString, Length } from "class-validator"
 
 export class transferDto{
 

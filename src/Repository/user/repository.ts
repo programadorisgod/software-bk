@@ -25,7 +25,7 @@ export class UserRepository implements ICRUDRepository<User> {
     await User.delete({ idUser: id })
   }
   async findByPhoneNumber(phoneNumber: string): Promise<User | Error | null> {
-    const user = User.findOneBy({ phoneNumber })
+    const user = User.findOne({ where: { phoneNumber }, relations: { movement: true, credit: true, bank: true } })
     return user
   }
   async findByMailUser(email: string): Promise<User | Error | null> {

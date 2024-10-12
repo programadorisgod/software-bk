@@ -17,39 +17,44 @@ export class UseCaseCreditRegister {
     this.repository = CreditRepository
   }
 
-  async Register(userId:string,  credit: CreditDto): 
+  async Register(credit: CreditDto): 
     Promise<ISuccessProcess<any> | IFailureProcess<any>> {
+        console.log("entro al caso de uso1")
       try {
         const userRepository = new UserRepository()
 
+        console.log("entro al caso de uso2")
+
         let userFound = null
 
-        if (isEmail(userId)) {
-          userFound = await userRepository.findByMailUser(userId)
+        if (isEmail(credit.userId)) {
+          userFound = await userRepository.findByMailUser(credit.userId)
         }
-
-        if (isPhoneNumber(userId)) {
-          userFound = await userRepository.findByPhoneNumber(userId)
+        
+        if (isPhoneNumber(credit.userId)) {
+          userFound = await userRepository.findByPhoneNumber(credit.userId)
         }
-
+        
         if (userFound instanceof Error) {
           return FailureProcess(userFound.message, 403)
         }
-
+        
         if (!userFound) {
           return FailureProcess("user does not exist", 404)
         }
-
-        if (userFound.credit.length > 0) {
+        
+        if (userFound?.credit?.length > 0) {
           return FailureProcess("user already has a credit", 409)
         }
-
+        
+        const intRate = parseFloat(credit.interestRate)/100
+        
         const newCredit = new Credit()
-        newCredit.idCredit = credit.idCredit
+        newCredit.idCredit = crypto.randomUUID()
         newCredit.user = userFound
-        newCredit.amountApproved = credit.amountApproved
+        newCredit.amountApproved = parseFloat(credit.amountApproved)
         newCredit.interestType = credit.interestType
-        newCredit.interestRate = credit.interestRate
+        newCredit.interestRate = intRate
         newCredit.totalInterest = 0
         newCredit.quotesPaid = []
         newCredit.quotesNumber = credit.quotesNumber
@@ -67,6 +72,7 @@ export class UseCaseCreditRegister {
         }
         return SuccessProcess("Credit created succesfully", 200)
       } catch (error) {
+        console.log(error)
         return FailureProcess("An unexpected error occurred", 500)
       }
       
