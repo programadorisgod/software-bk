@@ -1,5 +1,6 @@
 import { User } from "@Entity/user/user"
 import { ICRUDRepository } from "@interfaces/Repository/crudRespository"
+import { UpdateResult } from "typeorm"
 
 export class UserRepository implements ICRUDRepository<User> {
   async findAll(): Promise<User[] | Error> {
@@ -28,7 +29,11 @@ export class UserRepository implements ICRUDRepository<User> {
     return user
   }
   async findByMailUser(email: string): Promise<User | Error | null> {
-    const user = User.findOneBy({ email })
+    const user = await User.findOneBy({ email })
     return user
+  }
+  async updateBalance(phoneNumber:string, amount:number): Promise< UpdateResult | Error| null> {
+    const userUpdate = await User.update({phoneNumber},{balance:amount})  
+    return userUpdate
   }
 }
