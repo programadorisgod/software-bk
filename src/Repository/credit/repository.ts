@@ -14,7 +14,7 @@ export class CreditRepository implements ICRUDRepository<Credit> {
     await Credit.delete({ idCredit: id })
   }
   async findById(id: string): Promise<Credit | Error | null> {
-    const credit = await Credit.findOneBy({ idCredit: id })
+    const credit = await Credit.findOne({ where: { idCredit: id }, relations: { quotesPaid: true, user: true } })
     return credit
   }
   async findAll(): Promise<Error | Credit[]> {

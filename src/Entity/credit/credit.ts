@@ -37,11 +37,11 @@ export class Credit extends BaseEntity {
   @Column({ type: "varchar" })
   period!: string
 
-  @Column({ type: "timestamp" })
-  startDate!: Date
+  @Column({ type: "varchar" })
+  startDate!: string
 
-  @Column({ type: "timestamp" })
-  endDate!: Date
+  @Column({ type: "varchar" })
+  endDate!: string
 
   @Column({ type: "varchar" })
   creditStatus!: string
