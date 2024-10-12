@@ -1,4 +1,5 @@
 import { LoginDto } from "@Dtos/Auth/loginDto"
+import { infoUserDto } from "@Dtos/users/userInfoDtos"
 import {
   IFailureProcess,
   ISuccessProcess,
@@ -8,6 +9,7 @@ import { tokenSing } from "@utils/JwtHelpers/handleJwt"
 import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
 
 import { compareSync } from "bcrypt-ts"
+import { UserInfo } from "os"
 
 export class UseCaseAuthLogin {
   private readonly repository: UserRepository
@@ -35,9 +37,16 @@ export class UseCaseAuthLogin {
       if (!resultDesencrytp) {
         return FailureProcess("incorrect password or user", 404)
       }
+      let userInfo:infoUserDto = new infoUserDto()
 
-      const tokenCreated = await tokenSing(userFound.phoneNumber)
-      return SuccessProcess(tokenCreated, 200)
+      userInfo.idUser = userFound.idUser
+      userInfo.name = userFound.name
+      userInfo.lastName = userFound.lastName
+      userInfo.phoneNumber = userFound.phoneNumber
+      userInfo.balance = userFound.balance
+
+      // const tokenCreated = await tokenSing(userFound.phoneNumber)
+      return SuccessProcess(userInfo, 200)
     } catch (error) {
       return FailureProcess("An unexpected error occurred", 500)
     }

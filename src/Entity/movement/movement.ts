@@ -15,8 +15,14 @@ export class Movement extends BaseEntity {
   @Column({ type: 'decimal' })
   omuntMovement!: number
 
-  @Column({ type: "varchar" })
+  @Column({type:'varchar',nullable:true})
+  origin!: string
+  
+  @Column({ type: "varchar",nullable:true})
   destination!: string
+
+  @Column({type:'varchar'})
+  typeTransfer!:string
 
   @ManyToOne(() => User, (user:User) => user.movement)
   user!: User

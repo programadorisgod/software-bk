@@ -11,6 +11,7 @@ import { CreateRouterCredit } from "@adapters/routes/credit/creditRouter"
 import { createWriteStream } from "node:fs"
 import path from "node:path"
 import { logger } from "@utils/Log/logger"
+import { routeTransfer } from "@routes/transfer/transfer"
 
 const app = express()
 
@@ -62,6 +63,7 @@ app.use(CreateRouterCredit())
 //Middleware
 app.use(errorHandlerMiddleware)
 app.use(createRouterAuth())
+app.use(routeTransfer())
 app.listen(PORT, () => {
   console.log(`Server running in http://localhost:${PORT}`)
 })
