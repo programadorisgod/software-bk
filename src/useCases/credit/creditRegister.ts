@@ -10,6 +10,7 @@ import {
 } from "@utils/validate/validateInputsForgotPassword"
 import { calculateDateEnd } from "@utils/Date/calculateDateEnd"
 import { randomUUID } from "node:crypto"
+import { getDateColombia } from "@adapters/utils/Date/date";
 
 export class UseCaseCreditRegister {
   private readonly repository: CreditRepository
@@ -78,7 +79,7 @@ export class UseCaseCreditRegister {
         newCredit.totalPaid = 0
         newCredit.paidInterest = 0
         newCredit.period = credit.period
-        newCredit.startDate = new Date().toLocaleDateString()
+        newCredit.startDate = getDateColombia().toLocaleDateString()
         newCredit.endDate = dateEnd
         newCredit.creditStatus = "Vigente"
 
