@@ -21,8 +21,8 @@ export class QuotesPaid extends BaseEntity {
   @Column({ type: "varchar" })
   period!: string
 
-  @Column({ type: "timestamp" })
-  date!: Date
+  @Column({ type: "varchar" })
+  date!: string
 
   @Column({ type: "varchar" })
   status!: string
