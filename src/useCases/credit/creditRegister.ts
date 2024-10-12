@@ -9,7 +9,7 @@ import {
   isPhoneNumber,
 } from "@utils/validate/validateInputsForgotPassword"
 import { calculateDateEnd } from "@utils/Date/calculateDateEnd"
-
+import { randomUUID } from "node:crypto"
 
 export class UseCaseCreditRegister {
   private readonly repository: CreditRepository
@@ -46,7 +46,6 @@ export class UseCaseCreditRegister {
         userFound.credit.forEach(credit => {
           idCredit = credit.idCredit ;
         });
-        console.log(idCredit)
 
         if (userFound?.credit?.length > 0) {
           return FailureProcess("user already has a credit", 409)
@@ -68,7 +67,7 @@ export class UseCaseCreditRegister {
         }
 
         const newCredit = new Credit()
-        newCredit.idCredit = crypto.randomUUID()
+        newCredit.idCredit = randomUUID()
         newCredit.user = userFound
         newCredit.amountApproved = parseFloat(credit.amountApproved)
         newCredit.interestType = credit.interestType
