@@ -5,6 +5,7 @@ import { Movement } from "@Entity/movement/movement";
 import { IFailureProcess, ISuccessProcess } from "@interfaces/Results/resultsAPI";
 import { movementRepository } from "@Repository/movement/repository";
 import { UserRepository } from "@Repository/user/repository";
+import { getDateColombia } from "@utils/Date/date";
 import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI";
 
 import { randomUUID } from "crypto";
@@ -47,7 +48,7 @@ export class caseUseTransferMount{
             const movementDebit = new Movement()// movimiento para el que recibe
             movementDebit.idMovement = randomUUID()
             movementDebit.description = data.description
-            movementDebit.dateMovement = new Date()
+            movementDebit.dateMovement = getDateColombia()
             movementDebit.omuntMovement = data.omuntMovement
             movementDebit.origin = data.phoneNumber
             movementDebit.user = userDebit
@@ -63,7 +64,7 @@ export class caseUseTransferMount{
             const movementCredit = new Movement()// movimiento  que desembolsa plata
             movementCredit.idMovement = randomUUID()
             movementCredit.description = data.description
-            movementCredit.dateMovement = new Date()
+            movementCredit.dateMovement = getDateColombia()
             movementCredit.omuntMovement = data.omuntMovement
             movementCredit.destination = userDebit.phoneNumber
             movementCredit.user = amountVerify
