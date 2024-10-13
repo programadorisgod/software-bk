@@ -19,7 +19,7 @@ export class Credit extends BaseEntity {
   @Column({ type: "decimal" })
   interestRate!: number
 
-  @Column({ type: "integer" })
+  @Column({ type: "decimal" })
   totalInterest!: number
 
   @OneToMany(() => QuotesPaid, (quotesPaid: QuotesPaid) => quotesPaid.credit)
@@ -28,10 +28,10 @@ export class Credit extends BaseEntity {
   @Column({ type: "integer" })
   quotesNumber!: number
 
-  @Column({ type: "integer" })
+  @Column({ type: "decimal" })
   totalPaid!: number
 
-  @Column({ type: "integer" })
+  @Column({ type: "decimal" })
   paidInterest!: number
 
   @Column({ type: "varchar" })
