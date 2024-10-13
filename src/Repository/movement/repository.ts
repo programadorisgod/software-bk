@@ -22,6 +22,11 @@ export class movementRepository implements ICRUDRepository<Movement>{
         return find
     }
 
+    async findByNumberPhone(phoneNumber:string):Promise<any>{
+        const movementFind = Movement.find( { where:{ user:{ phoneNumber } } } )
+        return movementFind
+    }
+
     async findAll(): Promise<Error | Movement[]> {
         const movement = await Movement.find({relations:{
             user:true

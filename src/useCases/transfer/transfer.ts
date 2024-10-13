@@ -27,7 +27,7 @@ export class caseUseTransferMount{
             const userInfo:infoUserDto = new infoUserDto()
             const movementInfo:movementRealizedDto = new movementRealizedDto()
             
-            if(!amountVerify || !userDebit) return FailureProcess('No se encontro usuario',404)
+            if(!amountVerify || !userDebit) return FailureProcess('Not Found User',404)
             if(amountVerify instanceof Error || userDebit instanceof Error) return FailureProcess(amountVerify.name, 403)  
             if(amountVerify.balance < data.omuntMovement) return FailureProcess('dont have enough balance',403)
                         
