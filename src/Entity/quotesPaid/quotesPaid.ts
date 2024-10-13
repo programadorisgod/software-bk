@@ -19,9 +19,6 @@ export class QuotesPaid extends BaseEntity {
   interest!: number
 
   @Column({ type: "varchar" })
-  period!: string
-
-  @Column({ type: "varchar" })
   date!: string
 
   @Column({ type: "varchar" })
