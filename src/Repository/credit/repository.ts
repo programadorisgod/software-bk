@@ -17,6 +17,12 @@ export class CreditRepository implements ICRUDRepository<Credit> {
     const credit = await Credit.findOne({ where: { idCredit: id }, relations: { quotesPaid: true, user: true } })
     return credit
   }
+
+  async findCreditByUser(userId: string): Promise<Credit | Error | null> {
+    const creditFound = await Credit.findOne({ where: { user: { phoneNumber: userId } }, relations: { quotesPaid: true, user: true } })
+    return creditFound
+  }
+
   async findAll(): Promise<Error | Credit[]> {
     const credtis = await Credit.find({
       relations: { quotesPaid: true, user: true },
