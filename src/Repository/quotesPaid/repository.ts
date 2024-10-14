@@ -4,15 +4,15 @@ export class QuotesPaidRepository {
   async save(data: QuotesPaid): Promise<void | Error> {
     await QuotesPaid.save(data)
   }
-  async update(id: number, data: QuotesPaid): Promise<QuotesPaid | Error> {
+  async update(id: string, data: QuotesPaid): Promise<QuotesPaid | Error> {
     await QuotesPaid.findOneBy({ idQuotesPaid: id })
     const quotesPaidUpdated = await QuotesPaid.save(data)
     return quotesPaidUpdated
   }
-  async delete(id: number): Promise<void | Error> {
+  async delete(id: string): Promise<void | Error> {
     await QuotesPaid.delete({ idQuotesPaid: id })
   }
-  async findById(id: number): Promise<QuotesPaid | Error | null> {
+  async findById(id: string): Promise<QuotesPaid | Error | null> {
     const quotesPaid = await QuotesPaid.findOne({ where: { idQuotesPaid: id }, relations: { credit: true } })
     return quotesPaid
   }

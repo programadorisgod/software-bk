@@ -32,6 +32,7 @@ export class UseCasePaymentQuota {
       
       // Recorrer los usuarios
       for (const user of users) {
+        console.log("this user is ", user.name)
         if(user.credit.length === 0) {
           continue
         }
@@ -52,13 +53,15 @@ export class UseCasePaymentQuota {
         if (!quotesPaid) 
           return FailureProcess("Quotes not found", 500)
 
-        const quotePending = quotesPaid.find(quote => quote.status === "Pendiente")
+        const quoteSort = quotesPaid.sort((a, b) => a.number - b.number)
+
+        const quotePending = quoteSort.find(quote => quote.status === "Pendiente")
 
         if(quotePending instanceof Error) 
           return FailureProcess("Error getting quote", 500)
 
         if (!quotePending) 
-          return FailureProcess("Quotes not found", 500)
+          continue
 
         // if(quotePending.date !== getDateColombia().toLocaleDateString()) {
         //   continue
@@ -85,7 +88,7 @@ export class UseCasePaymentQuota {
 
         const movementCredit = new Movement()
         movementCredit.idMovement = randomUUID()
-        movementCredit.description = `Pago de ${quotePending.totalValue} por ${user.name}`
+        movementCredit.description = `Pago de Cuota # ${quotePending.number} por valor de ${quotePending.totalValue}`
         movementCredit.dateMovement = getDateColombia()
         movementCredit.omuntMovement = quotePending.totalValue
         movementCredit.origin = user.name
