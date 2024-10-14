@@ -46,7 +46,7 @@ export const createRouterUser = (): Router => {
   if (controller instanceof UserController) {
     router.get(`${BASE_URL}/users`, checkToken, controller.findAll)
     router.get(`${BASE_URL}/users/:id`, checkToken, controller.findById)
-    router.get(`${BASE_URL}/users/phone/:id`, checkToken, controller.findByPhone)
+    router.get(`${BASE_URL}/users/phone/:id`,controller.findByPhone)
     router.delete(`${BASE_URL}/users/:id`, checkToken, controller.delete)
     router.put(`${BASE_URL}/users/:id`, checkToken, controller.update)
   } else {
