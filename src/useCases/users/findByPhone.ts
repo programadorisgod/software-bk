@@ -1,7 +1,7 @@
 import { User } from "@Entity/user/user"
-import { IFailure, ISuccess } from "@interfaces/Results/results"
+import { IFailureProcess, ISuccessProcess } from "@interfaces/Results/resultsAPI"
 import { UserRepository } from "@Repository/user/repository"
-import { Failure, Success } from "@utils/results/results"
+import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI"
 
 export class UseCaseFindUserByPhone {
   private readonly repository: UserRepository
@@ -10,17 +10,17 @@ export class UseCaseFindUserByPhone {
     this.repository = userRepository
   }
 
-  async findByPhone(Userid: string): Promise<ISuccess<User> | IFailure<string>> {
+  async findByPhone(Userid: string): Promise<ISuccessProcess<User> | IFailureProcess<string>> {
     try {
       const user = await this.repository.findByPhoneNumber(Userid)
 
       if (user instanceof Error || !user) {
-        return Failure(user?.message || "user not found")
+        return FailureProcess(user?.message || "user not found", 404)
       }
 
-      return Success(user)
+      return SuccessProcess(user,200)
     } catch (error) {
-      return Failure("An unexpected error occurred")
+      return FailureProcess("An unexpected error occurred",500)
     }
   }
 }
