@@ -71,7 +71,10 @@ export class CreditController {
 
   async paymentQuota(req: Request, res: Response, next: NextFunction) {
     const credit = await this._useCasePaymentQuota.PaymentQuota()
-    console.log("Entro?")
+    
+    if(!credit)
+      return next(credit)
+
     if (!credit.success) {
       const error = {
         status: credit.statusCode,
@@ -79,6 +82,6 @@ export class CreditController {
       }
       return next(error)
     } 
-    res.status(credit.statusCode).json({message: credit.value})
+    res.status(credit.statusCode)
   }
 }
