@@ -102,8 +102,10 @@ export class UseCaseCreditRegister {
         }
 
         const periodKey = values.find(v => v.value === credit.period)?.key || 12
+        const startDate = getDateColombia()
+
         for (let i = 0; i < credit.quotesNumber; i++) {
-          const quoteDate = getDateColombia()
+          const quoteDate = new Date(startDate);
           
           switch(periodKey) {
             case 365: // Día
@@ -139,7 +141,7 @@ export class UseCaseCreditRegister {
           const total = cCapital + cInterest
 
           const quotesPaid = new QuotesPaid()
-          quotesPaid.idQuotesPaid = randomUUID()
+          quotesPaid.idQuotesPaid = i + 1
           quotesPaid.credit= newCredit
           quotesPaid.number = i + 1
           quotesPaid.date = quoteDate.toLocaleDateString()
