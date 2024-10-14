@@ -3,6 +3,7 @@ import { UseCaseFindUser } from "@useCases/users/find"
 import { UseCaseFindAllUser } from "@useCases/users/findAll"
 import { UseCaseUpdateUser } from "@useCases/users/update"
 import { UseCaseFindUserByPhone } from "@useCases/users/findByPhone"
+import { NextFunction, Request, Response } from "express"
 
 export class UserController {
   private _useCaseFindAll!: UseCaseFindAllUser
@@ -47,7 +48,17 @@ export class UserController {
   async update(id: string, data: any) {
     return await this._useCaseUpdate.update(id, data)
   }
-  async findByPhone(id: string) {
-    return await this._useCaseFindByPhone.findByPhone(id)
+  async findByPhone(req: Request, res: Response, next: NextFunction) {
+
+    const user = await this._useCaseFindByPhone.findByPhone(req.params.id)
+
+    if (!user.success) {
+      const error = {
+        status: user.statusCode,
+        message: user.error,
+      }
+      return next(error)
+    }
+    res.status(user.statusCode).json({message: user.value})
   }
 }
