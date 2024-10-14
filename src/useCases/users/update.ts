@@ -29,11 +29,9 @@ export class UseCaseUpdateUser {
       newUser.email = data.email
       newUser.password = data.password
       newUser.phoneNumber = data.phoneNumber
-      newUser.age = data.age
       newUser.bank = {} as Bank
       newUser.credit = []
       newUser.movement = []
-      newUser.faceImage = []
 
       const user = await this.repository.update(id, newUser)
 

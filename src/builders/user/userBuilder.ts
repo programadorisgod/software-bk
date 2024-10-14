@@ -5,12 +5,14 @@ import { UseCaseFindUser } from "@useCases/users/find"
 import { UseCaseFindAllUser } from "@useCases/users/findAll"
 import { UseCaseUpdateUser } from "@useCases/users/update"
 import { Failure } from "@utils/results/results"
+import { UseCaseFindUserByPhone } from "@useCases/users/findByPhone"
 
 export class UserControllerBuilder {
   private useCaseFindAll!: UseCaseFindAllUser
   private useCaseFindById!: UseCaseFindUser
   private useCaseDelete!: UseCaseUserDelete
   private useCaseUpdate!: UseCaseUpdateUser
+  private useCaseFindByPhone!: UseCaseFindUserByPhone
 
   withFindAll(useCase: UseCaseFindAllUser): UserControllerBuilder {
     this.useCaseFindAll = useCase
@@ -31,6 +33,10 @@ export class UserControllerBuilder {
     this.useCaseUpdate = useCase
     return this
   }
+  withFindByPhone(useCase: UseCaseFindUserByPhone): UserControllerBuilder {
+    this.useCaseFindByPhone = useCase
+    return this
+  }
 
   build(): UserController | IFailure<string> {
     if (!this.useCaseFindAll) return Failure("Use case FindAll is required")
@@ -40,11 +46,15 @@ export class UserControllerBuilder {
     if (!this.useCaseDelete) return Failure("Use case Delete is required")
 
     if (!this.useCaseUpdate) return Failure("Use case Update is required")
+
+    if (!this.useCaseFindByPhone) return Failure("Use case FindByPhone is required")
+      
     return new UserController(
       this.useCaseFindAll,
       this.useCaseFindById,
       this.useCaseDelete,
       this.useCaseUpdate,
+      this.useCaseFindByPhone,
     )
   }
 }
