@@ -29,10 +29,7 @@ export class Credit extends BaseEntity {
   quotesNumber!: number
 
   @Column({ type: "decimal" })
-  totalPaid!: number
-
-  @Column({ type: "decimal" })
-  paidInterest!: number
+  totalCredit!: number
 
   @Column({ type: "varchar" })
   period!: string

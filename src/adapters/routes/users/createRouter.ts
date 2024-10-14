@@ -9,6 +9,7 @@ import { UseCaseUpdateUser } from "@useCases/users/update"
 import { checkToken } from "@adapters/middleware/handleJwt"
 import { Router } from "express"
 import { UserControllerBuilder } from "@builders/user/userBuilder"
+import { UseCaseFindUserByPhone } from "@useCases/users/findByPhone"
 
 /**
  * Create and configure the router for user-related routes.
@@ -31,6 +32,7 @@ export const createRouterUser = (): Router => {
   const useCaseFindById = new UseCaseFindUser(repository)
   const useCaseDelete = new UseCaseUserDelete(repository)
   const useCaseUpdate = new UseCaseUpdateUser(repository)
+  const useCaseFindByPhone = new UseCaseFindUserByPhone(repository)
 
   //so as not to have an overloaded constructor
   const controller = new UserControllerBuilder()
@@ -38,11 +40,13 @@ export const createRouterUser = (): Router => {
     .withFindById(useCaseFindById)
     .withDelete(useCaseDelete)
     .withUpdate(useCaseUpdate)
+    .withFindByPhone(useCaseFindByPhone)
     .build()
 
   if (controller instanceof UserController) {
     router.get(`${BASE_URL}/users`, checkToken, controller.findAll)
     router.get(`${BASE_URL}/users/:id`, checkToken, controller.findById)
+    router.get(`${BASE_URL}/users/phone/:id`, checkToken, controller.findByPhone)
     router.delete(`${BASE_URL}/users/:id`, checkToken, controller.delete)
     router.put(`${BASE_URL}/users/:id`, checkToken, controller.update)
   } else {

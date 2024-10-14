@@ -6,6 +6,9 @@ export class QuotesPaid extends BaseEntity {
   @PrimaryColumn({ type: "varchar" })
   idQuotesPaid!: string
 
+  @Column({ type: "integer" })
+  number!: number
+
   @ManyToOne(() => Credit, (credits: Credit) => credits.quotesPaid)
   credit!: Credit
 
