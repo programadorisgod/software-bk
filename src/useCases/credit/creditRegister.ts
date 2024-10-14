@@ -13,6 +13,8 @@ import { randomUUID } from "node:crypto"
 import { getDateColombia } from "@adapters/utils/Date/date";
 import { Movement } from "@Entity/movement/movement";
 import { movementRepository } from "@Repository/movement/repository"
+import { QuotesPaid } from "@Entity/quotesPaid/quotesPaid"
+import { QuotesPaidRepository} from "@Repository/quotesPaid/repository"
 
 export class UseCaseCreditRegister {
   private readonly repository: CreditRepository
@@ -24,8 +26,21 @@ export class UseCaseCreditRegister {
   async Register(credit: CreditDto): 
     Promise<ISuccessProcess<any> | IFailureProcess<any>> {
       try {
+
+        // Lista de periodos
+        const values = [
+          { key: 365, value: "Dia" },
+          { key: 52, value: "Semana" },
+          { key: 24, value: "Quincena" },
+          { key: 12, value: "Mes" },
+          { key: 6, value: "Bimestre" },
+          { key: 4, value: "Trimestre" },
+          { key: 2, value: "Semestre" },
+          { key: 1, value: "Año" },
+        ];
         const userRepository = new UserRepository()
         const MovementRepository = new movementRepository()
+        const quotesPaidRepository = new QuotesPaidRepository()
 
         let userFound = null
 
@@ -63,6 +78,8 @@ export class UseCaseCreditRegister {
           Itotal = parseFloat(credit.amountApproved) * Math.pow( ( 1 + intRate ), credit.quotesNumber )
         }
 
+        const totalC = parseFloat(credit.amountApproved) + parseFloat(Itotal.toString())
+
         const newCredit = new Credit()
         newCredit.idCredit = randomUUID()
         newCredit.user = userFound
@@ -72,8 +89,7 @@ export class UseCaseCreditRegister {
         newCredit.totalInterest = Itotal
         newCredit.quotesPaid = []
         newCredit.quotesNumber = credit.quotesNumber
-        newCredit.totalPaid = 0
-        newCredit.paidInterest = 0
+        newCredit.totalCredit = totalC
         newCredit.period = credit.period
         newCredit.startDate = getDateColombia().toLocaleDateString()
         newCredit.endDate = dateEnd
@@ -83,6 +99,59 @@ export class UseCaseCreditRegister {
 
         if(creditCreated instanceof Error) {
           return FailureProcess(creditCreated.message, 403)
+        }
+
+        const periodKey = values.find(v => v.value === credit.period)?.key || 12
+        for (let i = 0; i < credit.quotesNumber; i++) {
+          const quoteDate = getDateColombia()
+          
+          switch(periodKey) {
+            case 365: // Día
+              quoteDate.setDate(quoteDate.getDate() + i + 1 ); 
+              break;
+            case 52: // Semana
+              quoteDate.setDate(quoteDate.getDate() + i * 7 + 1); 
+              break;
+            case 24: // Quincena
+              quoteDate.setDate(quoteDate.getDate() + i * 15 + 1); 
+              break;
+            case 12: // Mes
+              quoteDate.setMonth(quoteDate.getMonth() + i + 1); 
+              break;
+            case 6: // Bimestre
+              quoteDate.setMonth(quoteDate.getMonth() + i * 2 + 1); 
+              break;
+            case 4: // Trimestre
+              quoteDate.setMonth(quoteDate.getMonth() + i * 3 + 1); 
+              break;
+            case 2: // Semestre
+              quoteDate.setMonth(quoteDate.getMonth() + i * 6 + 1); 
+              break;
+            case 1: // Año
+              quoteDate.setFullYear(quoteDate.getFullYear() + i + 1); 
+              break;
+            default:
+              break;
+          }
+
+          const cInterest = parseFloat(newCredit.totalInterest.toString())/credit.quotesNumber
+          const cCapital = parseFloat(credit.amountApproved)/credit.quotesNumber
+          const total = cCapital + cInterest
+
+          const quotesPaid = new QuotesPaid()
+          quotesPaid.idQuotesPaid = randomUUID()
+          quotesPaid.credit= newCredit
+          quotesPaid.number = i + 1
+          quotesPaid.date = quoteDate.toLocaleDateString()
+          quotesPaid.capital = cCapital
+          quotesPaid.interest = cInterest
+          quotesPaid.totalValue = total
+          quotesPaid.status = 'Pendiente'
+
+          const quotesPaidCreated = await quotesPaidRepository.save(quotesPaid)
+
+          if(quotesPaidCreated instanceof Error) 
+            return FailureProcess(quotesPaidCreated.message, 403) 
         }
 
         const newAmount = parseFloat(newCredit.amountApproved.toString()) + parseFloat(userFound.balance.toString())
