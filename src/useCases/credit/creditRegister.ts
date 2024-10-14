@@ -141,7 +141,7 @@ export class UseCaseCreditRegister {
           const total = cCapital + cInterest
 
           const quotesPaid = new QuotesPaid()
-          quotesPaid.idQuotesPaid = i + 1
+          quotesPaid.idQuotesPaid = randomUUID()
           quotesPaid.credit= newCredit
           quotesPaid.number = i + 1
           quotesPaid.date = quoteDate.toLocaleDateString()
