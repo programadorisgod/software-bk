@@ -29,13 +29,7 @@ export class UseCaseCreditEnd {
         if (!userFound) {
           return FailureProcess("user does not exist", 404)
         }
-
-        const paidInterest = userFound.credit[0].paidInterest
-        const totalInterest = userFound.credit[0].totalInterest
-
-        if(paidInterest !== totalInterest){
-          return FailureProcess("credit not liquidated", 409)
-        }
+        
         userFound.credit[0].creditStatus = "Liquidado"
         return SuccessProcess("Credit liquidated succesfully", 200)
     } catch (error) {

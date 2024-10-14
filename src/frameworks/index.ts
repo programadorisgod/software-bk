@@ -2,6 +2,7 @@ import express, { json, Request, Response } from "express"
 import cors from "cors"
 import helmet from "helmet"
 import morgan from "morgan"
+import cron from "node-cron"
 
 import { errorHandlerMiddleware } from "@middlewares/handleError"
 import { createRouterUser } from "@routes/users/createRouter"
@@ -12,6 +13,8 @@ import { createWriteStream } from "node:fs"
 import path from "node:path"
 import { logger } from "@utils/Log/logger"
 import { routeTransfer } from "@routes/transfer/transfer"
+import { UseCasePaymentQuota } from "@useCases/credit/paymentQuota"
+import { QuotesPaidRepository } from "@Repository/quotesPaid/repository"
 
 const app = express()
 
@@ -77,3 +80,13 @@ process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at:", promise, "reason:", reason)
   logger.error("Unhandled Rejection at:", promise, "reason:", reason)
 })
+
+cron.schedule('59 * * * * *', async () => {
+  const useCaseQuota = new UseCasePaymentQuota(new QuotesPaidRepository())
+  try {
+    await useCaseQuota.PaymentQuota()
+  } catch (error) {
+    console.error("Error: ", error)
+  }
+});
+
