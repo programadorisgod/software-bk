@@ -3,8 +3,8 @@ import { Credit } from "@Entity/credit/credit"
 
 @Entity("QuotesPaid")
 export class QuotesPaid extends BaseEntity {
-  @PrimaryColumn({ type: "varchar" })
-  idQuotesPaid!: string
+  @PrimaryColumn({ type: "integer", unique: true })
+  idQuotesPaid!: number
 
   @Column({ type: "integer" })
   number!: number
