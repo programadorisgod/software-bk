@@ -74,7 +74,7 @@ export class UseCaseCreditRegister {
         }
 
         if (credit.interestType === "Compuesto"){ 
-          Itotal = parseFloat(credit.amountApproved) * Math.pow( ( 1 + intRate ), credit.quotesNumber )
+          Itotal = parseFloat(credit.amountApproved) * Math.pow((1 + intRate), credit.quotesNumber) - parseFloat(credit.amountApproved)
         }
 
         const totalC = parseFloat(credit.amountApproved) + parseFloat(Itotal.toString())
@@ -142,8 +142,15 @@ export class UseCaseCreditRegister {
             cInterest = parseFloat(newCredit.totalInterest.toString())/credit.quotesNumber
             cCapital = parseFloat(credit.amountApproved)/credit.quotesNumber
             total = cCapital + cInterest
-          }else if(newCredit.interestType === "Compuesto"){
-            
+          }
+          if(newCredit.interestType === "Compuesto"){
+
+            const quotes = this.calculateQuotesCompoundInterest(newCredit.amountApproved,newCredit.interestRate,newCredit.quotesNumber)
+
+            cInterest = quotes[i].interes 
+            cCapital = quotes[i].capital 
+            total = quotes[i].total
+
           }
 
           const quotesPaid = new QuotesPaid()
@@ -190,5 +197,29 @@ export class UseCaseCreditRegister {
         console.log(error)
         return FailureProcess("An unexpected error occurred", 500)
       }
+  }
+
+  calculateQuotesCompoundInterest(capital: number, interesRate: number, quotaNumber: number) {
+    
+    let quoteFixed = (capital * interesRate * Math.pow(1 + interesRate, quotaNumber)) / (Math.pow(1 + interesRate, quotaNumber) - 1);
+
+    let remainingBalance = capital;
+    let quotes = [];
+
+    for (let i = 1; i <= quotaNumber; i++) {
+        let interesCuota = remainingBalance * interesRate; // Interés de la cuota actual
+        let capitalCuota = quoteFixed - interesCuota; // Capital amortizado en la cuota actual
+        remainingBalance -= capitalCuota; // Reducir el saldo restante
+
+        let cuota = {
+            cuotaNumero: i,
+            capital: capitalCuota,
+            interes: interesCuota,
+            total: capitalCuota + interesCuota
+        };
+        quotes.push(cuota);
+    }
+
+    return quotes;
   }
 }

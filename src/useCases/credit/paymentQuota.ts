@@ -1,5 +1,5 @@
-import { IFailureProcess, ISuccessProcess } from "@interfaces/Results/resultsAPI";
-import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI";
+import { IFailureProcess} from "@interfaces/Results/resultsAPI";
+import { FailureProcess } from "@utils/results/resultsAPI";
 import { QuotesPaidRepository } from "@Repository/quotesPaid/repository";
 import { UserRepository } from "@Repository/user/repository";
 import { CreditRepository } from "@Repository/credit/repository";
@@ -14,7 +14,8 @@ export class UseCasePaymentQuota {
   constructor(quotesPaidRepository: QuotesPaidRepository) {
     this.repository = quotesPaidRepository
   }
-  async PaymentQuota() {
+  async PaymentQuota(): 
+  Promise<void | IFailureProcess<any>> {
     try {
       const creditRepository = new CreditRepository()
       const userRepository = new UserRepository()
@@ -78,7 +79,7 @@ export class UseCasePaymentQuota {
           if(movementCreated instanceof Error) 
             return FailureProcess(movementCreated.message, 403)
           continue
-          //TODO: Enviar email de rechazo
+          //TODO: Enviar email de pago rechazado
         }
 
         const newBalance = parseFloat(user.balance.toString()) - parseFloat(quotePending.totalValue.toString())
@@ -110,7 +111,7 @@ export class UseCasePaymentQuota {
         if(movementCreated instanceof Error) 
           return FailureProcess(movementCreated.message, 403)
 
-        //TODO: Enviar email de confirmación
+        //TODO: Enviar email de pago confirmado
 
         if(quotePending.number === credit.quotesNumber) {
           credit.creditStatus = "Liquidado"
