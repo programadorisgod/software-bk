@@ -1,5 +1,5 @@
-import { IFailureProcess, ISuccessProcess } from "@interfaces/Results/resultsAPI";
-import { FailureProcess, SuccessProcess } from "@utils/results/resultsAPI";
+import { IFailureProcess} from "@interfaces/Results/resultsAPI";
+import { FailureProcess } from "@utils/results/resultsAPI";
 import { QuotesPaidRepository } from "@Repository/quotesPaid/repository";
 import { UserRepository } from "@Repository/user/repository";
 import { CreditRepository } from "@Repository/credit/repository";
@@ -8,17 +8,14 @@ import { movementRepository } from "@Repository/movement/repository";
 import { randomUUID } from "crypto";
 import { getDateColombia } from "@utils/Date/date";
 
-
-
 export class UseCasePaymentQuota {
   private readonly repository: QuotesPaidRepository
 
-
   constructor(quotesPaidRepository: QuotesPaidRepository) {
     this.repository = quotesPaidRepository
-
   }
-  async PaymentQuota() {
+  async PaymentQuota(): 
+  Promise<void | IFailureProcess<any>> {
     try {
       const creditRepository = new CreditRepository()
       const userRepository = new UserRepository()
@@ -30,7 +27,7 @@ export class UseCasePaymentQuota {
       if(users instanceof Error) 
         return FailureProcess("Error getting users", 500)
       
-      // Recorrer los usuarios
+
       for (const user of users) {
         console.log("this user is ", user.name)
         if(user.credit.length === 0) {
@@ -68,8 +65,21 @@ export class UseCasePaymentQuota {
         // }
 
         if(parseFloat(user.balance.toString()) < parseFloat(quotePending.totalValue.toString())) {
-          console.log("this user has no balance") //Envia un email a la persona
+          const movementCredit = new Movement()
+          movementCredit.idMovement = randomUUID()
+          movementCredit.description = `Pago Fallido de Cuota # ${quotePending.number} por valor de ${quotePending.totalValue}`
+          movementCredit.dateMovement = getDateColombia()
+          movementCredit.omuntMovement = quotePending.totalValue
+          movementCredit.origin = user.name
+          movementCredit.destination = "Nekli"
+          movementCredit.user = user
+          movementCredit.typeTransfer = 'Credito'
+          const movementCreated = await MovementRepository.save(movementCredit)
+
+          if(movementCreated instanceof Error) 
+            return FailureProcess(movementCreated.message, 403)
           continue
+          //TODO: Enviar email de pago rechazado
         }
 
         const newBalance = parseFloat(user.balance.toString()) - parseFloat(quotePending.totalValue.toString())
@@ -101,7 +111,16 @@ export class UseCasePaymentQuota {
         if(movementCreated instanceof Error) 
           return FailureProcess(movementCreated.message, 403)
 
-        //enviar correo de que se pago el credito
+        //TODO: Enviar email de pago confirmado
+
+        if(quotePending.number === credit.quotesNumber) {
+          credit.creditStatus = "Liquidado"
+          const updateCredit = await creditRepository.update(credit.idCredit, credit)
+          if(updateCredit instanceof Error) 
+            return FailureProcess(updateCredit.message, 403)
+
+          //TODO: Enviar email de que pago todo el credito
+        }
       }    
     } catch (error) {
       console.log(error)
