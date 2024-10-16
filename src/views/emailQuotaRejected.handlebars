@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restablecer Contraseña</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f7;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      background-color: #005eff;
+      padding: 20px;
+      border-radius: 8px 8px 0 0;
+    }
+    .header img {
+      width: 50px;
+    }
+    .header h1 {
+      color: #fff;
+      font-size: 24px;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .email-content {
+      padding: 30px;
+      text-align: center;
+    }
+    .email-content h2 {
+      font-size: 22px;
+      color: #333;
+    }
+    .email-content p {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.5;
+    }
+    
+    
+    .email-content ul {
+      text-align: left;
+      margin-left: 20px;
+    }
+    .email-content ul li {
+      list-style: none;
+      margin: 10px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 25px;
+      background-color: #005eff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .footer a {
+      color: #005eff;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    /* Responsivo */
+    @media only screen and (max-width: 600px) {
+      .email-content h2 {
+        font-size: 20px;
+      }
+      .email-content p {
+        font-size: 14px;
+      }
+      .button {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Encabezado -->
+    <div class="header">
+      <img src="cid:logo@correo.com" alt="Logo">
+      <h1>FinanceFlow</h1>
+    </div>
+
+    <!-- Contenido del email -->
+    <div class="email-content">
+      <h2>Hola, {{name}}</h2>
+         <p>
+        🙁 ¡Lo sentimos! Pago rechazado. La cuota de tu prestamo no se ha podido reflejar. 🙁 
+        </p>
+     
+
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer">
+      <p>¿Necesitas ayuda? <a href="#">Contacta a nuestro soporte</a> o en Twitter <a href="#">@FinanceFlow</a></p>
+      <p>Enviado por FinanceFlow, 123 Hero Street, Ciudad Futura, Planeta Tierra</p>
+    </div>
+  </div>
+</body>
+</html>
