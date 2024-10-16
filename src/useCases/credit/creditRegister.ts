@@ -26,8 +26,6 @@ export class UseCaseCreditRegister {
   async Register(credit: CreditDto): 
     Promise<ISuccessProcess<any> | IFailureProcess<any>> {
       try {
-
-        // Lista de periodos
         const values = [
           { key: 365, value: "Dia" },
           { key: 52, value: "Semana" },
@@ -62,6 +60,7 @@ export class UseCaseCreditRegister {
 
         if (userFound?.credit?.length > 0) {
           return FailureProcess("user already has a credit", 409)
+          //TODO: Enviar email de rechazo
         }
         
         const intRate = parseFloat(credit.interestRate)/100
@@ -135,10 +134,17 @@ export class UseCaseCreditRegister {
             default:
               break;
           }
+          let cCapital = 0
+          let cInterest = 0
+          let total = 0
 
-          const cInterest = parseFloat(newCredit.totalInterest.toString())/credit.quotesNumber
-          const cCapital = parseFloat(credit.amountApproved)/credit.quotesNumber
-          const total = cCapital + cInterest
+          if(newCredit.interestType === "Simple"){
+            cInterest = parseFloat(newCredit.totalInterest.toString())/credit.quotesNumber
+            cCapital = parseFloat(credit.amountApproved)/credit.quotesNumber
+            total = cCapital + cInterest
+          }else if(newCredit.interestType === "Compuesto"){
+            
+          }
 
           const quotesPaid = new QuotesPaid()
           quotesPaid.idQuotesPaid = randomUUID()
@@ -177,10 +183,12 @@ export class UseCaseCreditRegister {
           return FailureProcess(movementCreated.message, 403)
         
         return SuccessProcess("Credit created succesfully", 200)
+
+        //TODO: Enviar email de confirmación
+
       } catch (error) {
         console.log(error)
         return FailureProcess("An unexpected error occurred", 500)
       }
-      
   }
 }
