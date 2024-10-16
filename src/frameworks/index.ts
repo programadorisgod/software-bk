@@ -81,7 +81,7 @@ process.on("unhandledRejection", (reason, promise) => {
   logger.error("Unhandled Rejection at:", promise, "reason:", reason)
 })
 
-cron.schedule('1 * * * * *', async () => {
+cron.schedule('30 * * * * *', async () => {
   const useCaseQuota = new UseCasePaymentQuota(new QuotesPaidRepository())
   try {
     await useCaseQuota.PaymentQuota()
