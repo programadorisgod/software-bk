@@ -22,6 +22,15 @@ export class UseCasePaymentQuota {
       const MovementRepository = new movementRepository()
 
       // Obtener todos los usuarios
+      const creditsExits = await creditRepository.findAll()
+
+      if (creditsExits?.length === 0) return
+
+      const creditLiquidated = creditsExits.every(
+        (credit) => credit.creditStatus === "Liquidado",
+      )
+
+      if (creditLiquidated) return
       const users = await userRepository.findAll()
 
       if (users instanceof Error)
