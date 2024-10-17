@@ -62,9 +62,13 @@ export class UseCaseCreditRegister {
       if (!userFound) {
         return FailureProcess("user does not exist", 404)
       }
+      const creditsExits = await this.repository.findAll()
 
-      if (userFound?.credit?.length > 0) {
-        //TODO: Enviar email de rechazo
+      const creditLiquidated = creditsExits.every(
+        (credit) => credit.creditStatus === "Liquidado",
+      )
+
+      if (!creditLiquidated) {
         await EmailService.sendEmailCreditRejected({
           email: userFound.email,
           name: userFound.name,
@@ -153,6 +157,7 @@ export class UseCaseCreditRegister {
           default:
             break
         }
+
         let cCapital = 0
         let cInterest = 0
         let total = 0
