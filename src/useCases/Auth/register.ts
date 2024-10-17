@@ -21,6 +21,7 @@ export class UseCaseAuthRegister {
   ): Promise<ISuccessProcess<any> | IFailureProcess<any>> {
     try {
       const userFound = await this.repository.findById(userDto.id)
+      console.log(userFound, "user found")
 
       if (userFound) {
         return FailureProcess("This user exist", 409)
